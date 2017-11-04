@@ -6,7 +6,7 @@
 /*   By: sgardner <stephenbgardner@gmail.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/10/27 22:17:59 by sgardner          #+#    #+#             */
-/*   Updated: 2017/11/03 20:24:04 by sgardner         ###   ########.fr       */
+/*   Updated: 2017/11/04 15:14:32 by sgardner         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ t_file		*build_file(char *path, t_dirent *dp, int flags)
 		return (free_file(file));
 	}
 	res = (dp->d_type == 10) ? lstat(path, stats) : stat(path, stats);
-	if (res < 0 || ((flags & LS_L) && !load_stats(file, stats, flags)))
+	if (res < 0 || !load_stats(file, stats, flags))
 	{
 		free(stats);
 		ls_error(path);
@@ -70,7 +70,7 @@ t_bool		load_children(t_file *file, int flags)
 	i = 0;
 	while ((dp = ls_read(dir, file->path)))
 	{
-		if (!(flags & LS_A) && *dp->d_name == '.')
+		if (!LSF(LS_A) && *dp->d_name == '.')
 			continue ;
 		if (!(cpath = build_path(file->path, dp->d_name))
 			|| !(file->children[i] = build_file(cpath, dp, flags))

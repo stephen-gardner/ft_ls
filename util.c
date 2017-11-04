@@ -6,13 +6,13 @@
 /*   By: sgardner <stephenbgardner@gmail.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/10/31 11:28:35 by sgardner          #+#    #+#             */
-/*   Updated: 2017/11/03 20:36:00 by sgardner         ###   ########.fr       */
+/*   Updated: 2017/11/04 15:16:05 by sgardner         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_ls.h"
 
-char	*build_path(char *parent, char *child)
+char		*build_path(char *parent, char *child)
 {
 	char	*path;
 	char	*tmp;
@@ -26,7 +26,7 @@ char	*build_path(char *parent, char *child)
 	return (path);
 }
 
-char	*build_link(char *link, char *path)
+char		*build_link(char *link, char *path)
 {
 	char	target[256];
 	char	*label;
@@ -57,7 +57,7 @@ long long	count_blocks(t_file **children)
 	return (blocks);
 }
 
-int		dir_len(char *path, int flags)
+int			dir_len(char *path, int flags)
 {
 	DIR			*dir;
 	int			dlen;
@@ -68,7 +68,7 @@ int		dir_len(char *path, int flags)
 	dlen = 0;
 	while ((dp = ls_read(dir, path)))
 	{
-		if (!(flags & LS_A) && *dp->d_name == '.')
+		if (!LSF(LS_A) && *dp->d_name == '.')
 			continue ;
 		dlen++;
 	}
@@ -77,7 +77,7 @@ int		dir_len(char *path, int flags)
 	return (dlen);
 }
 
-void	*ls_error(char *path)
+void		*ls_error(char *path)
 {
 	write(2, g_app, ft_strlen(g_app));
 	write(2, ": ", 2);

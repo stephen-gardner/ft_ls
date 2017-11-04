@@ -6,7 +6,7 @@
 /*   By: sgardner <stephenbgardner@gmail.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/10/30 21:02:06 by sgardner          #+#    #+#             */
-/*   Updated: 2017/11/03 20:33:21 by sgardner         ###   ########.fr       */
+/*   Updated: 2017/11/04 15:15:22 by sgardner         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,22 +67,23 @@ static char		*get_perms(mode_t st_mode)
 **           =          15768000
 */
 
-static char		*get_time_str(t_stat *stats, int flags)
+static char		*get_time_str(t_file *file, t_stat *stats, int flags)
 {
 	struct timespec	spec;
 	time_t			curr;
 	char			*ftime;
 
-	if (flags & LS_ATIME)
+	if (LSF(LS_ATIME))
 		spec = stats->st_atimespec;
-	else if (flags & LS_CTIME)
+	else if (LSF(LS_CTIME))
 		spec = stats->st_ctimespec;
 	else
 		spec = stats->st_mtimespec;
+	file->timestamp = spec;
 	ftime = ctime(&spec.tv_sec);
 	if (!(ftime = ft_strsub(ftime, 4, 20)))
 		return (NULL);
-	if (!(flags & LS_CT))
+	if (!LSF(LS_CT))
 	{
 		time(&curr);
 		if (curr - spec.tv_sec <= 15768000)
@@ -107,7 +108,7 @@ t_bool			load_stats(t_file *file, t_stat *stats, int flags)
 		|| !(file->stats[2] = ft_strdup(pw->pw_name))
 		|| !(file->stats[3] = ft_strdup(gr->gr_name))
 		|| !(file->stats[4] = ft_itoa(stats->st_size))
-		|| !(file->stats[5] = get_time_str(stats, flags)))
+		|| !(file->stats[5] = get_time_str(file, stats, flags)))
 		return (FALSE);
 	file->stats[6] = (FMT(stats->st_mode, S_IFLNK)) ?
 		build_link(file->name, file->path) : ft_strdup(file->name);

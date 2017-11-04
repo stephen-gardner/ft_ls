@@ -5,8 +5,8 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: sgardner <stephenbgardner@gmail.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2017/11/01 20:12:04 by sgardner          #+#    #+#             */
-/*   Updated: 2017/11/01 23:19:20 by sgardner         ###   ########.fr       */
+/*   Created: 2017/11/04 15:33:34 by sgardner          #+#    #+#             */
+/*   Updated: 2017/11/04 15:33:36 by sgardner         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 
 const t_lsflag	g_lsflags[] = {
 	{ 'a', LS_A },
+	{ 'f', LS_F },
 	{ 'l', LS_L },
 	{ 'R', LS_REC },
 	{ 'r', LS_REV },

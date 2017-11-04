@@ -6,7 +6,7 @@
 /*   By: sgardner <stephenbgardner@gmail.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/11/01 17:23:58 by sgardner          #+#    #+#             */
-/*   Updated: 2017/11/03 20:42:00 by sgardner         ###   ########.fr       */
+/*   Updated: 2017/11/04 15:08:32 by sgardner         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,22 +43,24 @@ void		print_files(t_file *file, int flags)
 	int		i;
 
 	if (!file->children)
-		(flags & LS_L) ?
+		(LSF(LS_L)) ?
 			print_long(file->stats, NULL) : ft_printf("%s\n", file->name);
 	else
 	{
-		if (flags & LS_L)
+		if (LSF(LS_L))
 		{
 			set_padding(file);
 			ft_printf("total %lld\n", count_blocks(file->children));
 		}
-		i = 0;
-		while ((child = file->children[i]))
+		i = (LSF(LS_REV) && !LSF(LS_F)) ? file->child_count - 1 : 0;
+		while ((LSF(LS_REV) && !LSF(LS_F)) ? i > -1 : i < file->child_count)
 		{
-			if (flags & LS_L)
-				print_long(file->children[i++]->stats, file->maxlen);
+			child = file->children[i];
+			if (LSF(LS_L))
+				print_long(file->children[i]->stats, file->maxlen);
 			else
-				ft_printf("%s\n", file->children[i++]->name);
+				ft_printf("%s\n", file->children[i]->name);
+			i += (LSF(LS_REV) && !LSF(LS_F)) ? -1 : 1;
 		}
 	}
 	free_file(file);

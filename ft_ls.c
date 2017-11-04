@@ -6,7 +6,7 @@
 /*   By: sgardner <stephenbgardner@gmail.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/10/27 19:21:45 by sgardner          #+#    #+#             */
-/*   Updated: 2017/11/03 15:57:26 by sgardner         ###   ########.fr       */
+/*   Updated: 2017/11/04 15:14:09 by sgardner         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,14 +25,14 @@ int		main(int argc, char **argv)
 	g_app = argv[idx++] + 2;
 	if (argc > 1 && !parse_flags(&flags, argv, &idx, argc))
 		return (1);
-	if (idx >= argc)
-		file = load_parent(".", flags);
-	else
-		file = load_parent(argv[idx], flags);
+	file = (idx >= argc) ?
+		load_parent(".", flags) : load_parent(argv[idx], flags);
 	if (!file)
 		return (1);
-	if (file->children)
-		heap_sort(file->children, file->child_count, &fnamecmp);
+	if (file->children && !LSF(LS_F))
+		(LSF(LS_MTIME))
+			? heap_sort(file->children, file->child_count, &ftimecmp)
+			: heap_sort(file->children, file->child_count, &fnamecmp);
 	print_files(file, flags);
 	return (0);
 }

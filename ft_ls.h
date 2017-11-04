@@ -6,7 +6,7 @@
 /*   By: sgardner <stephenbgardner@gmail.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/10/27 19:21:24 by sgardner          #+#    #+#             */
-/*   Updated: 2017/11/03 20:48:18 by sgardner         ###   ########.fr       */
+/*   Updated: 2017/11/04 15:05:56 by sgardner         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,7 @@
 # include <unistd.h>
 # include "ft_printf.h"
 
+# define LSF(x) (flags & x)
 # define FMT(x, y) ((x & S_IFMT) == y)
 # define USR(x, y) ((x & S_IRWXU) & y)
 # define GRP(x, y) ((x & S_IRWXG) & y)
@@ -36,6 +37,7 @@ typedef struct			s_file
 	long long		block_size;
 	char			*stats[8];
 	int				maxlen[4];
+	struct timespec	timestamp;
 	struct s_file	*parent;
 	struct s_file	**children;
 	int				child_count;
@@ -56,9 +58,9 @@ enum	e_lsflags
 	LS_MTIME = 1 << 4,
 	LS_ATIME = 1 << 5,
 	LS_CTIME = 1 << 6,
-	LS_CT = 1 << 7
+	LS_CT = 1 << 7,
+	LS_F = 1 << 8
 };
-
 
 /*
 ** load.c
@@ -90,6 +92,7 @@ void					print_long(char **stats, int *maxlen);
 void					heap_sort(t_file **children, int child_count,
 		int (*cmp)(const t_file *, const t_file *));
 int						fnamecmp(const t_file *f1, const t_file *f2);
+int						ftimecmp(const t_file *f1, const t_file *f2);
 
 /*
 ** stat.c
