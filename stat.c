@@ -6,7 +6,7 @@
 /*   By: sgardner <stephenbgardner@gmail.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/10/30 21:02:06 by sgardner          #+#    #+#             */
-/*   Updated: 2017/11/02 17:25:30 by sgardner         ###   ########.fr       */
+/*   Updated: 2017/11/03 20:33:21 by sgardner         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,8 +61,10 @@ static char		*get_perms(mode_t st_mode)
 }
 
 /*
-** Check for timestamp older than 6 months is
-**  approximate.
+** Check for timestamp older than 6 months is approximate:
+**  6 months = (365 / 2) * 1 day
+**           = (  182.5) * 86400
+**           =          15768000
 */
 
 static char		*get_time_str(t_stat *stats, int flags)
@@ -83,7 +85,7 @@ static char		*get_time_str(t_stat *stats, int flags)
 	if (!(flags & LS_CT))
 	{
 		time(&curr);
-		if (curr - spec.tv_sec <= 15552000)
+		if (curr - spec.tv_sec <= 15768000)
 			*(ftime + 12) = '\0';
 		else
 			ft_memmove(ftime + 7, ftime + 15, 6);
@@ -96,14 +98,15 @@ t_bool			load_stats(t_file *file, t_stat *stats, int flags)
 	struct passwd	*pw;
 	struct group	*gr;
 
+	file->block_size = stats->st_blocks;
 	if (!(pw = getpwuid(stats->st_uid))
 		|| !(gr = getgrgid(stats->st_gid)))
 		return ((int)ls_error(file->path));
 	if (!(file->stats[0] = get_perms(stats->st_mode))
-		|| !(file->stats[1] = ft_itoa((int)stats->st_nlink))
+		|| !(file->stats[1] = ft_itoa(stats->st_nlink))
 		|| !(file->stats[2] = ft_strdup(pw->pw_name))
 		|| !(file->stats[3] = ft_strdup(gr->gr_name))
-		|| !(file->stats[4] = ft_itoa((int)stats->st_size))
+		|| !(file->stats[4] = ft_itoa(stats->st_size))
 		|| !(file->stats[5] = get_time_str(stats, flags)))
 		return (FALSE);
 	file->stats[6] = (FMT(stats->st_mode, S_IFLNK)) ?

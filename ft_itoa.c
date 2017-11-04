@@ -6,10 +6,11 @@
 /*   By: sgardner <stephenbgardner@gmail.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/12/20 07:50:03 by sgardner          #+#    #+#             */
-/*   Updated: 2017/09/23 19:51:34 by sgardner         ###   ########.fr       */
+/*   Updated: 2017/11/03 20:11:12 by sgardner         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include <stdlib.h>
 #include "libft.h"
 
 /*
@@ -21,23 +22,30 @@
 ** If the allocation fails, the function returns NULL.
 */
 
-char	*ft_itoa(int n)
+char	*ft_itoa(intmax_t n)
 {
-	char	num[12];
-	int		sign;
-	int		digit;
+	char		*num;
+	int			sign;
+	int			len;
+	intmax_t	tmp;
 
-	num[11] = '\0';
 	sign = (n < 0) ? -1 : 1;
-	digit = 10;
+	len = (n == 0) + (sign < 0);
+	tmp = n;
+	while (tmp != 0 && ++len)
+		tmp /= 10;
+	if (!(num = (char *)malloc(len + 1)))
+		return (NULL);
+	num += len;
+	*num-- = '\0';
 	if (n == 0)
-		num[digit--] = '0';
+		*num-- = '0';
 	while (n != 0)
 	{
-		num[digit--] = (char)(((n % 10) * sign) + '0');
-		n = (n - (n % 10)) / 10;
+		*num-- = (char)(((n % 10) * sign) + '0');
+		n /= 10;
 	}
 	if (sign < 0)
-		num[digit--] = '-';
-	return (ft_strdup(&num[++digit]));
+		*num-- = '-';
+	return (++num);
 }

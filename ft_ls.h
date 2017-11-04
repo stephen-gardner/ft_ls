@@ -6,7 +6,7 @@
 /*   By: sgardner <stephenbgardner@gmail.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/10/27 19:21:24 by sgardner          #+#    #+#             */
-/*   Updated: 2017/11/02 22:50:29 by sgardner         ###   ########.fr       */
+/*   Updated: 2017/11/03 20:48:18 by sgardner         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,10 +33,12 @@ typedef struct			s_file
 {
 	char			*name;
 	char			*path;
-	char			*stats[7];
+	long long		block_size;
+	char			*stats[8];
 	int				maxlen[4];
 	struct s_file	*parent;
 	struct s_file	**children;
+	int				child_count;
 }						t_file;
 
 typedef struct			s_lsflag
@@ -82,6 +84,14 @@ void					print_files(t_file *file, int flags);
 void					print_long(char **stats, int *maxlen);
 
 /*
+** sort.c
+*/
+
+void					heap_sort(t_file **children, int child_count,
+		int (*cmp)(const t_file *, const t_file *));
+int						fnamecmp(const t_file *f1, const t_file *f2);
+
+/*
 ** stat.c
 */
 
@@ -93,6 +103,7 @@ t_bool					load_stats(t_file *file, t_stat *stats, int flags);
 
 char					*build_path(char *parent, char *child);
 char					*build_link(char *link, char *target);
+long long				count_blocks(t_file **children);
 int						dir_len(char *path, int flags);
 void					*ls_error(char *path);
 

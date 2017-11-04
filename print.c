@@ -6,7 +6,7 @@
 /*   By: sgardner <stephenbgardner@gmail.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/11/01 17:23:58 by sgardner          #+#    #+#             */
-/*   Updated: 2017/11/02 22:53:27 by sgardner         ###   ########.fr       */
+/*   Updated: 2017/11/03 20:42:00 by sgardner         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,10 @@ void		print_files(t_file *file, int flags)
 	else
 	{
 		if (flags & LS_L)
+		{
 			set_padding(file);
+			ft_printf("total %lld\n", count_blocks(file->children));
+		}
 		i = 0;
 		while ((child = file->children[i]))
 		{

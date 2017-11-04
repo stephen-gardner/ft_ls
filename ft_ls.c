@@ -6,7 +6,7 @@
 /*   By: sgardner <stephenbgardner@gmail.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/10/27 19:21:45 by sgardner          #+#    #+#             */
-/*   Updated: 2017/11/02 22:53:53 by sgardner         ###   ########.fr       */
+/*   Updated: 2017/11/03 15:57:26 by sgardner         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,8 @@ int		main(int argc, char **argv)
 		file = load_parent(argv[idx], flags);
 	if (!file)
 		return (1);
+	if (file->children)
+		heap_sort(file->children, file->child_count, &fnamecmp);
 	print_files(file, flags);
 	return (0);
 }

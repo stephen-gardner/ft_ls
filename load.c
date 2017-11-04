@@ -6,7 +6,7 @@
 /*   By: sgardner <stephenbgardner@gmail.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/10/27 22:17:59 by sgardner          #+#    #+#             */
-/*   Updated: 2017/11/02 21:11:37 by sgardner         ###   ########.fr       */
+/*   Updated: 2017/11/03 20:24:04 by sgardner         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,10 +45,10 @@ void		*free_file(t_file *file)
 	free(file->name);
 	free(file->path);
 	i = 0;
-	while (i < 7 && file->stats[i])
+	while (file->stats[i])
 		free(file->stats[i++]);
 	i = 0;
-	while (file->children && file->children[i])
+	while (i < file->child_count)
 		free_file(file->children[i++]);
 	free(file->children);
 	free(file);
@@ -58,13 +58,13 @@ void		*free_file(t_file *file)
 t_bool		load_children(t_file *file, int flags)
 {
 	DIR			*dir;
-	int			dlen;
 	t_dirent	*dp;
 	char		*cpath;
 	int			i;
 
-	if ((dlen = dir_len(file->path, flags)) < 0
-		|| !(file->children = (t_file **)ft_memalloc(sizeof(t_file *) * ++dlen))
+	if ((file->child_count = dir_len(file->path, flags)) < 0
+		|| !(file->children =
+			(t_file **)ft_memalloc(sizeof(t_file *) * (file->child_count + 1)))
 		|| !(dir = ls_open(file->path)))
 		return (FALSE);
 	i = 0;

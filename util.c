@@ -6,7 +6,7 @@
 /*   By: sgardner <stephenbgardner@gmail.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/10/31 11:28:35 by sgardner          #+#    #+#             */
-/*   Updated: 2017/11/02 19:40:24 by sgardner         ###   ########.fr       */
+/*   Updated: 2017/11/03 20:36:00 by sgardner         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,6 +43,18 @@ char	*build_link(char *link, char *path)
 	tmp = ft_stpcpy(tmp, " -> ");
 	tmp = ft_stpcpy(tmp, target);
 	return (label);
+}
+
+long long	count_blocks(t_file **children)
+{
+	long long	blocks;
+	int			i;
+
+	blocks = 0;
+	i = 0;
+	while (children[i])
+		blocks += children[i++]->block_size;
+	return (blocks);
 }
 
 int		dir_len(char *path, int flags)

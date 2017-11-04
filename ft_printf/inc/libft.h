@@ -6,12 +6,13 @@
 /*   By: sgardner <stephenbgardner@gmail.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/12/16 01:23:55 by sgardner          #+#    #+#             */
-/*   Updated: 2017/10/04 20:31:38 by sgardner         ###   ########.fr       */
+/*   Updated: 2017/11/03 19:29:32 by sgardner         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef LIBFT_H
 # define LIBFT_H
+# include <stdint.h>
 # include <string.h>
 
 /*
@@ -95,7 +96,7 @@ int				ft_atoi(const char *str);
 ** Standard I/O: libft exclusive
 */
 
-char			*ft_itoa(int n);
+char			*ft_itoa(intmax_t n);
 
 void			ft_putendl(const char *s);
 
