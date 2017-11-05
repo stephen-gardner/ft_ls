@@ -6,7 +6,7 @@
 /*   By: sgardner <stephenbgardner@gmail.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/10/27 19:21:45 by sgardner          #+#    #+#             */
-/*   Updated: 2017/11/05 01:56:00 by sgardner         ###   ########.fr       */
+/*   Updated: 2017/11/05 01:53:51 by sgardner         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,21 +36,25 @@ int			main(int argc, char **argv)
 	t_file	*file;
 	int		flags;
 	int		idx;
+	t_bool	title;
 
 	flags = 0;
 	idx = 0;
 	g_app = argv[idx++] + 2;
 	if (argc > 1 && !parse_flags(&flags, argv, &idx, argc))
 		return (1);
-	file = (idx >= argc) ?
-		load_parent(".", flags) : load_parent(argv[idx], flags);
-	if (!file)
-		return (1);
-	if (file->child_count && !LSF(LS_F))
-		(LSF(LS_MTIME))
-			? heap_sort(file->children, file->child_count, &ftimecmp)
-			: heap_sort(file->children, file->child_count, &fnamecmp);
-	print_recursive(file, flags);
+	file = (idx < argc) ?
+		load_parent(argv[idx++], flags) : load_parent(".", flags);
+	title = ((argc - idx) > 0);
+	while (file)
+	{
+		if (title)
+			ft_printf("%s:\n", file->path);
+		print_recursive(file, flags);
+		file = (idx < argc) ? load_parent(argv[idx], flags) : NULL;
+		if (idx++ < argc)
+			ft_printf("\n");
+	}
 	return (0);
 }
 
