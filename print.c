@@ -6,7 +6,7 @@
 /*   By: sgardner <stephenbgardner@gmail.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/11/01 17:23:58 by sgardner          #+#    #+#             */
-/*   Updated: 2017/11/05 01:59:53 by sgardner         ###   ########.fr       */
+/*   Updated: 2017/11/05 02:19:43 by sgardner         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,9 +17,13 @@ static void		print_long(char **stats, int *maxlen, int flags)
 	ft_printf("%s  ", stats[0]);
 	ft_printf("%*s ", (maxlen) ? maxlen[0] : ft_strlen(stats[1]), stats[1]);
 	if (!LSF(LS_GROUP))
-		ft_printf("%-*s  ", (maxlen) ?
-				maxlen[1] : ft_strlen(stats[2]), stats[2]);
-	ft_printf("%-*s  ", (maxlen) ? maxlen[2] : ft_strlen(stats[3]), stats[3]);
+		ft_printf("%-*s  ",
+				(maxlen) ? maxlen[1] : ft_strlen(stats[2]), stats[2]);
+	if (!LSF(LS_OMIT_GROUP))
+		ft_printf("%-*s  ",
+				(maxlen) ? maxlen[2] : ft_strlen(stats[3]), stats[3]);
+	if (LSF(LS_GROUP) && LSF(LS_OMIT_GROUP))
+		write(1, "  ", 2);
 	ft_printf("%*s ", (maxlen) ? maxlen[3] : ft_strlen(stats[4]), stats[4]);
 	ft_printf("%s ", stats[5]);
 	ft_printf("%s\n", stats[6]);
