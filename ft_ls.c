@@ -6,12 +6,13 @@
 /*   By: sgardner <stephenbgardner@gmail.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/10/27 19:21:45 by sgardner          #+#    #+#             */
-/*   Updated: 2017/11/05 01:53:51 by sgardner         ###   ########.fr       */
+/*   Updated: 2017/11/05 13:29:01 by sgardner         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_ls.h"
 
+time_t		g_time;
 const char	*g_app;
 
 static int	get_max_width(t_file **children, int field)
@@ -38,6 +39,7 @@ int			main(int argc, char **argv)
 	int		idx;
 	t_bool	title;
 
+	time(&g_time);
 	flags = 0;
 	idx = 0;
 	g_app = argv[idx++] + 2;

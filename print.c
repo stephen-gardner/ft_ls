@@ -6,7 +6,7 @@
 /*   By: sgardner <stephenbgardner@gmail.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/11/01 17:23:58 by sgardner          #+#    #+#             */
-/*   Updated: 2017/11/05 02:48:23 by sgardner         ###   ########.fr       */
+/*   Updated: 2017/11/05 13:35:45 by sgardner         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,7 +67,8 @@ static t_file	*get_next_folder(t_file *file, int flags)
 		if (child->stats[0][0] != 'd'
 			|| !ft_strcmp(child->name, ".")
 			|| !ft_strcmp(child->name, "..")
-			|| !ft_printf("\n%s:\n", child->path + (*child->path == '/'))
+			|| !ft_printf("\n%s:\n", child->path
+				+ (*child->path == '/' && *(child->path + 1) == '/'))
 			|| !load_children(child, flags))
 		{
 			free_file(child);

@@ -6,7 +6,7 @@
 /*   By: sgardner <stephenbgardner@gmail.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/10/27 19:21:24 by sgardner          #+#    #+#             */
-/*   Updated: 2017/11/05 02:11:39 by sgardner         ###   ########.fr       */
+/*   Updated: 2017/11/05 13:43:41 by sgardner         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -126,6 +126,16 @@ int						ls_close(DIR *dir, char *path);
 DIR						*ls_open(char *path);
 t_dirent				*ls_read(DIR *dir, char *path);
 
+/*
+** CONSTANTS
+** =========
+**  ft_ls.c:
+**   g_time, *g_app
+**  parser.c:
+**   g_lsflags[], g_lsflag_count
+*/
+
+extern time_t			g_time;
 extern const char		*g_app;
 extern const t_lsflag	g_lsflags[];
 extern const int		g_lsflag_count;
