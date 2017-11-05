@@ -6,7 +6,7 @@
 /*   By: sgardner <stephenbgardner@gmail.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/10/27 19:21:45 by sgardner          #+#    #+#             */
-/*   Updated: 2017/11/04 15:14:09 by sgardner         ###   ########.fr       */
+/*   Updated: 2017/11/05 01:15:37 by sgardner         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,24 @@
 
 const char	*g_app;
 
-int		main(int argc, char **argv)
+static int	get_max_width(t_file **children, int field)
+{
+	int	max;
+	int	len;
+	int	i;
+
+	max = 0;
+	i = 0;
+	while (children[i])
+	{
+		len = ft_strlen(children[i++]->stats[field]);
+		if (len > max)
+			max = len;
+	}
+	return (max);
+}
+
+int			main(int argc, char **argv)
 {
 	t_file	*file;
 	int		flags;
@@ -33,6 +50,14 @@ int		main(int argc, char **argv)
 		(LSF(LS_MTIME))
 			? heap_sort(file->children, file->child_count, &ftimecmp)
 			: heap_sort(file->children, file->child_count, &fnamecmp);
-	print_files(file, flags);
+	print_recursive(file, flags);
 	return (0);
+}
+
+void		set_padding(t_file *file)
+{
+	file->maxlen[0] = get_max_width(file->children, 1);
+	file->maxlen[1] = get_max_width(file->children, 2);
+	file->maxlen[2] = get_max_width(file->children, 3);
+	file->maxlen[3] = get_max_width(file->children, 4);
 }

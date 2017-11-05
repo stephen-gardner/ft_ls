@@ -6,7 +6,7 @@
 /*   By: sgardner <stephenbgardner@gmail.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/10/27 22:17:59 by sgardner          #+#    #+#             */
-/*   Updated: 2017/11/04 15:14:32 by sgardner         ###   ########.fr       */
+/*   Updated: 2017/11/05 00:53:04 by sgardner         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ t_file		*build_file(char *path, t_dirent *dp, int flags)
 		free(stats);
 		return (free_file(file));
 	}
-	res = (dp->d_type == 10) ? lstat(path, stats) : stat(path, stats);
+	res = lstat(path, stats);
 	if (res < 0 || !load_stats(file, stats, flags))
 	{
 		free(stats);
@@ -47,9 +47,6 @@ void		*free_file(t_file *file)
 	i = 0;
 	while (file->stats[i])
 		free(file->stats[i++]);
-	i = 0;
-	while (i < file->child_count)
-		free_file(file->children[i++]);
 	free(file->children);
 	free(file);
 	return (NULL);

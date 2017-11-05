@@ -6,7 +6,7 @@
 /*   By: sgardner <stephenbgardner@gmail.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/10/27 19:21:24 by sgardner          #+#    #+#             */
-/*   Updated: 2017/11/04 15:05:56 by sgardner         ###   ########.fr       */
+/*   Updated: 2017/11/05 01:18:50 by sgardner         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,6 +41,7 @@ typedef struct			s_file
 	struct s_file	*parent;
 	struct s_file	**children;
 	int				child_count;
+	int				i;
 }						t_file;
 
 typedef struct			s_lsflag
@@ -63,6 +64,12 @@ enum	e_lsflags
 };
 
 /*
+** ft_ls.c
+*/
+
+void					set_padding(t_file *file);
+
+/*
 ** load.c
 */
 
@@ -82,8 +89,7 @@ t_bool					parse_flags(int *flags, char **argv, int *idx,
 ** print.c
 */
 
-void					print_files(t_file *file, int flags);
-void					print_long(char **stats, int *maxlen);
+void					print_recursive(t_file *file, int flags);
 
 /*
 ** sort.c
