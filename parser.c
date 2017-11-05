@@ -6,23 +6,23 @@
 /*   By: sgardner <stephenbgardner@gmail.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/11/04 15:33:34 by sgardner          #+#    #+#             */
-/*   Updated: 2017/11/05 02:11:57 by sgardner         ###   ########.fr       */
+/*   Updated: 2017/11/05 15:06:29 by sgardner         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_ls.h"
 
 const t_lsflag	g_lsflags[] = {
+	{ 'R', LS_REC },
+	{ 'T', LS_CT },
+	{ 'U', LS_CTIME },
 	{ 'a', LS_A },
 	{ 'f', LS_F },
 	{ 'g', LS_GROUP },
 	{ 'l', LS_L },
 	{ 'o', LS_OMIT_GROUP },
-	{ 'R', LS_REC },
 	{ 'r', LS_REV },
-	{ 'T', LS_CT },
 	{ 't', LS_MTIME },
-	{ 'U', LS_CTIME },
 	{ 'u', LS_ATIME },
 };
 
@@ -42,6 +42,22 @@ static int		get_flag(char c)
 	return (0);
 }
 
+static void		print_usage(char c)
+{
+	int		i;
+
+	write(2, g_app, ft_strlen(g_app));
+	write(2, ": illegal option -- ", 20);
+	write(2, &c, 1);
+	write(2, "\nusage: ", 8);
+	write(2, g_app, ft_strlen(g_app));
+	write(2, " [-", 3);
+	i = 0;
+	while (i < g_lsflag_count)
+		write(2, &g_lsflags[i++].c, 1);
+	write(2, "] [file ...]\n", 13);
+}
+
 t_bool			parse_flags(int *flags, char **argv, int *idx, int argc)
 {
 	char	*arg;
@@ -57,6 +73,7 @@ t_bool			parse_flags(int *flags, char **argv, int *idx, int argc)
 				*flags |= f;
 			else
 			{
+				print_usage(*arg);
 				return (FALSE);
 			}
 		}
