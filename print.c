@@ -6,7 +6,7 @@
 /*   By: sgardner <stephenbgardner@gmail.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/11/01 17:23:58 by sgardner          #+#    #+#             */
-/*   Updated: 2017/11/05 02:19:43 by sgardner         ###   ########.fr       */
+/*   Updated: 2017/11/05 02:48:23 by sgardner         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,6 +67,7 @@ static t_file	*get_next_folder(t_file *file, int flags)
 		if (child->stats[0][0] != 'd'
 			|| !ft_strcmp(child->name, ".")
 			|| !ft_strcmp(child->name, "..")
+			|| !ft_printf("\n%s:\n", child->path + (*child->path == '/'))
 			|| !load_children(child, flags))
 		{
 			free_file(child);
@@ -76,7 +77,6 @@ static t_file	*get_next_folder(t_file *file, int flags)
 			(LSF(LS_MTIME))
 				? heap_sort(child->children, child->child_count, &ftimecmp)
 				: heap_sort(child->children, child->child_count, &fnamecmp);
-		ft_printf("\n%s:\n", child->path);
 		print_files(child, flags);
 		return (child);
 	}
