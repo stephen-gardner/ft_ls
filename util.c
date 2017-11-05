@@ -6,7 +6,7 @@
 /*   By: sgardner <stephenbgardner@gmail.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/10/31 11:28:35 by sgardner          #+#    #+#             */
-/*   Updated: 2017/11/04 15:16:05 by sgardner         ###   ########.fr       */
+/*   Updated: 2017/11/05 01:58:19 by sgardner         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,7 +68,7 @@ int			dir_len(char *path, int flags)
 	dlen = 0;
 	while ((dp = ls_read(dir, path)))
 	{
-		if (!LSF(LS_A) && *dp->d_name == '.')
+		if (!LSF(LS_A) && !LSF(LS_F) && *dp->d_name == '.')
 			continue ;
 		dlen++;
 	}

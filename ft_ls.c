@@ -6,7 +6,7 @@
 /*   By: sgardner <stephenbgardner@gmail.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/10/27 19:21:45 by sgardner          #+#    #+#             */
-/*   Updated: 2017/11/05 01:15:37 by sgardner         ###   ########.fr       */
+/*   Updated: 2017/11/05 01:56:00 by sgardner         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,7 @@ int			main(int argc, char **argv)
 		load_parent(".", flags) : load_parent(argv[idx], flags);
 	if (!file)
 		return (1);
-	if (file->children && !LSF(LS_F))
+	if (file->child_count && !LSF(LS_F))
 		(LSF(LS_MTIME))
 			? heap_sort(file->children, file->child_count, &ftimecmp)
 			: heap_sort(file->children, file->child_count, &fnamecmp);
