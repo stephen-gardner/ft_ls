@@ -6,7 +6,7 @@
 /*   By: sgardner <stephenbgardner@gmail.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/10/30 21:02:06 by sgardner          #+#    #+#             */
-/*   Updated: 2017/11/05 13:30:13 by sgardner         ###   ########.fr       */
+/*   Updated: 2017/11/06 14:35:42 by sgardner         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,7 +84,7 @@ static char		*get_time_str(t_file *file, t_stat *stats, int flags)
 		return (NULL);
 	if (!LSF(LS_CT))
 	{
-		if (g_time - spec.tv_sec <= 15768000)
+		if (spec.tv_sec <= g_time && g_time - spec.tv_sec <= 15768000)
 			*(ftime + 12) = '\0';
 		else
 			ft_memmove(ftime + 7, ftime + 15, 6);
