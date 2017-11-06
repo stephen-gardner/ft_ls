@@ -6,7 +6,7 @@
 /*   By: sgardner <stephenbgardner@gmail.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/10/27 19:21:24 by sgardner          #+#    #+#             */
-/*   Updated: 2017/11/06 02:49:53 by sgardner         ###   ########.fr       */
+/*   Updated: 2017/11/06 13:54:16 by sgardner         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,9 +105,9 @@ void					print_recursive(t_file *file, int flags);
 void					heap_sort(t_file **children, int child_count,
 		int flags);
 
-int						fnamecmp(const t_file *f1, const t_file *f2);
+void					sort_args(char **argv, int argc, int idx);
 
-int						ftimecmp(const t_file *f1, const t_file *f2);
+void					sort_types(t_file **children);
 
 /*
 ** stat.c

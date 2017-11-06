@@ -6,7 +6,7 @@
 /*   By: sgardner <stephenbgardner@gmail.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/10/27 19:21:45 by sgardner          #+#    #+#             */
-/*   Updated: 2017/11/06 03:33:47 by sgardner         ###   ########.fr       */
+/*   Updated: 2017/11/06 14:22:27 by sgardner         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,7 @@ static t_file	**build_args(char **argv, int argc, int idx, int flags)
 	int		len;
 	int		i;
 
+	sort_args(argv, argc, idx);
 	len = (idx >= argc) ? 1 : (argc - idx);
 	if (!(array = (t_file **)ft_memalloc(sizeof(t_file *) * (len + 1))))
 		return (NULL);
@@ -48,7 +49,8 @@ static t_file	**build_args(char **argv, int argc, int idx, int flags)
 			continue ;
 		i++;
 	}
-	if (!LSF(LS_F))
+	sort_types(array);
+	if (!LSF(LS_F) && LSF(LS_MTIME))
 		heap_sort(array, i, flags);
 	return (array);
 }
@@ -75,7 +77,6 @@ int				main(int argc, char **argv)
 	t_file	**args;
 	int		flags;
 	int		idx;
-	t_bool	title;
 	int		i;
 
 	time(&g_time);
@@ -85,15 +86,16 @@ int				main(int argc, char **argv)
 	if ((argc > 1 && !parse_flags(argv, argc, &idx, &flags))
 		|| !(args = build_args(argv, argc, idx, flags)))
 		return (1);
-	title = ((argc - idx) > 1);
 	i = 0;
 	while (args[i])
 	{
-		if (title)
+		if ((argc - idx) > 1 && args[i]->stats[0][0] == 'd')
+		{
+			if (i > 0)
+				write(1, "\n", 1);
 			ft_printf("%s:\n", (args[i])->path);
+		}
 		print_recursive(args[i++], flags);
-		if (args[i])
-			ft_printf("\n");
 	}
 	free(args);
 	return (0);
