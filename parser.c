@@ -6,7 +6,7 @@
 /*   By: sgardner <stephenbgardner@gmail.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/11/04 15:33:34 by sgardner          #+#    #+#             */
-/*   Updated: 2017/11/05 15:06:29 by sgardner         ###   ########.fr       */
+/*   Updated: 2017/11/05 15:11:45 by sgardner         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,7 @@ const t_lsflag	g_lsflags[] = {
 	{ 'r', LS_REV },
 	{ 't', LS_MTIME },
 	{ 'u', LS_ATIME },
+	{ '1', LS_1 },
 };
 
 const int		g_lsflag_count = sizeof(g_lsflags) / sizeof(t_lsflag);

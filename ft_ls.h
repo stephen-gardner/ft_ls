@@ -6,7 +6,7 @@
 /*   By: sgardner <stephenbgardner@gmail.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/10/27 19:21:24 by sgardner          #+#    #+#             */
-/*   Updated: 2017/11/05 13:43:41 by sgardner         ###   ########.fr       */
+/*   Updated: 2017/11/05 15:21:13 by sgardner         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,17 +52,18 @@ typedef struct			s_lsflag
 
 enum	e_lsflags
 {
-	LS_A = 1,
-	LS_L = 1 << 1,
-	LS_REC = 1 << 2,
-	LS_REV = 1 << 3,
-	LS_MTIME = 1 << 4,
-	LS_ATIME = 1 << 5,
-	LS_CTIME = 1 << 6,
-	LS_CT = 1 << 7,
-	LS_F = 1 << 8,
-	LS_GROUP = 1 << 9,
-	LS_OMIT_GROUP = 1 << 10
+	LS_REC = 1,
+	LS_CT = 1 << 1,
+	LS_CTIME = 1 << 2,
+	LS_A = 1 << 3,
+	LS_F = 1 << 4,
+	LS_GROUP = 1 << 5,
+	LS_L = 1 << 6,
+	LS_OMIT_GROUP = 1 << 7,
+	LS_REV = 1 << 8,
+	LS_MTIME = 1 << 9,
+	LS_ATIME = 1 << 10,
+	LS_1 = 1 << 11
 };
 
 /*

@@ -6,7 +6,7 @@
 /*   By: sgardner <stephenbgardner@gmail.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/10/31 11:28:35 by sgardner          #+#    #+#             */
-/*   Updated: 2017/11/05 01:58:19 by sgardner         ###   ########.fr       */
+/*   Updated: 2017/11/05 15:37:26 by sgardner         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,8 @@ char		*build_path(char *parent, char *child)
 		return (NULL);
 	tmp = path;
 	tmp = ft_stpcpy(tmp, parent);
-	*tmp++ = '/';
+	if (*(tmp - 1) != '/')
+		*tmp++ = '/';
 	tmp = ft_stpcpy(tmp, child);
 	return (path);
 }

@@ -6,7 +6,7 @@
 /*   By: sgardner <stephenbgardner@gmail.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/11/01 17:23:58 by sgardner          #+#    #+#             */
-/*   Updated: 2017/11/05 13:35:45 by sgardner         ###   ########.fr       */
+/*   Updated: 2017/11/05 19:44:49 by sgardner         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,8 +67,7 @@ static t_file	*get_next_folder(t_file *file, int flags)
 		if (child->stats[0][0] != 'd'
 			|| !ft_strcmp(child->name, ".")
 			|| !ft_strcmp(child->name, "..")
-			|| !ft_printf("\n%s:\n", child->path
-				+ (*child->path == '/' && *(child->path + 1) == '/'))
+			|| !ft_printf("\n%s:\n", child->path)
 			|| !load_children(child, flags))
 		{
 			free_file(child);
@@ -92,13 +91,18 @@ static t_file	*get_next_folder(t_file *file, int flags)
 
 void			print_recursive(t_file *file, int flags)
 {
+	int	i;
+
 	if (file->child_count && !LSF(LS_F))
 		(LSF(LS_MTIME))
 			? heap_sort(file->children, file->child_count, &ftimecmp)
 			: heap_sort(file->children, file->child_count, &fnamecmp);
 	print_files(file, flags);
-	if (!LSF(LS_REC) || !file->children)
+	if (!LSF(LS_REC) || !file->child_count)
 	{
+		i = 0;
+		while (i < file->child_count)
+			free_file(file->children[i++]);
 		free_file(file);
 		return ;
 	}
