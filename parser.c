@@ -6,7 +6,7 @@
 /*   By: sgardner <stephenbgardner@gmail.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/11/04 15:33:34 by sgardner          #+#    #+#             */
-/*   Updated: 2017/11/05 20:35:22 by sgardner         ###   ########.fr       */
+/*   Updated: 2017/11/05 21:02:35 by sgardner         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ const t_lsflag	g_lsflags[] = {
 
 const int		g_lsflag_count = sizeof(g_lsflags) / sizeof(t_lsflag);
 
-static int		get_flag(char c)
+static int	get_flag(char c)
 {
 	int	i;
 
@@ -43,7 +43,7 @@ static int		get_flag(char c)
 	return (0);
 }
 
-static void		print_usage(char c)
+static void	print_usage(char c)
 {
 	int		i;
 
@@ -59,7 +59,7 @@ static void		print_usage(char c)
 	write(2, "] [file ...]\n", 13);
 }
 
-t_bool			parse_flags(int *flags, char **argv, int *idx, int argc)
+t_bool		parse_flags(char **argv, int argc, int *idx, int *flags)
 {
 	char	*arg;
 	int		f;

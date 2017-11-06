@@ -6,7 +6,7 @@
 /*   By: sgardner <stephenbgardner@gmail.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/10/27 19:21:45 by sgardner          #+#    #+#             */
-/*   Updated: 2017/11/05 20:01:17 by sgardner         ###   ########.fr       */
+/*   Updated: 2017/11/05 21:02:00 by sgardner         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ static void		*free_args(t_file **args)
 	return (NULL);
 }
 
-static t_file	**build_args(int idx, int argc, char **argv, int flags)
+static t_file	**build_args(char **argv, int argc, int idx, int flags)
 {
 	t_file	**array;
 	int		len;
@@ -83,10 +83,10 @@ int				main(int argc, char **argv)
 	flags = 0;
 	idx = 0;
 	g_app = argv[idx++] + 2;
-	if ((argc > 1 && !parse_flags(&flags, argv, &idx, argc))
-		|| !(args = build_args(idx, argc, argv, flags)))
+	if ((argc > 1 && !parse_flags(argv, argc, &idx, &flags))
+		|| !(args = build_args(argv, argc, idx, flags)))
 		return (1);
-	title = ((argc - idx) > 0);
+	title = ((argc - idx) > 1);
 	i = 0;
 	while (args[i])
 	{

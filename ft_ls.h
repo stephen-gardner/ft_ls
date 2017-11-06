@@ -6,7 +6,7 @@
 /*   By: sgardner <stephenbgardner@gmail.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/10/27 19:21:24 by sgardner          #+#    #+#             */
-/*   Updated: 2017/11/05 15:21:13 by sgardner         ###   ########.fr       */
+/*   Updated: 2017/11/05 20:59:53 by sgardner         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,7 @@
 
 typedef struct dirent	t_dirent;
 typedef struct stat		t_stat;
+
 typedef struct			s_file
 {
 	char			*name;
@@ -77,16 +78,19 @@ void					set_padding(t_file *file);
 */
 
 t_file					*build_file(char *path, t_dirent *dp, int flags);
+
 void					*free_file(t_file *file);
+
 t_bool					load_children(t_file *file, int flags);
+
 t_file					*load_parent(char *path, int flags);
 
 /*
 ** parser.c
 */
 
-t_bool					parse_flags(int *flags, char **argv, int *idx,
-		int argc);
+t_bool					parse_flags(char **argv, int argc, int *idx,
+		int *flags);
 
 /*
 ** print.c
@@ -100,7 +104,9 @@ void					print_recursive(t_file *file, int flags);
 
 void					heap_sort(t_file **children, int child_count,
 		int (*cmp)(const t_file *, const t_file *));
+
 int						fnamecmp(const t_file *f1, const t_file *f2);
+
 int						ftimecmp(const t_file *f1, const t_file *f2);
 
 /*
@@ -114,9 +120,13 @@ t_bool					load_stats(t_file *file, t_stat *stats, int flags);
 */
 
 char					*build_path(char *parent, char *child);
+
 char					*build_link(char *link, char *target);
+
 long long				count_blocks(t_file **children);
+
 int						dir_len(char *path, int flags);
+
 void					*ls_error(char *path);
 
 /*
@@ -124,7 +134,9 @@ void					*ls_error(char *path);
 */
 
 int						ls_close(DIR *dir, char *path);
+
 DIR						*ls_open(char *path);
+
 t_dirent				*ls_read(DIR *dir, char *path);
 
 /*
