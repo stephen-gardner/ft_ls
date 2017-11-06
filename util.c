@@ -6,7 +6,7 @@
 /*   By: sgardner <stephenbgardner@gmail.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/10/31 11:28:35 by sgardner          #+#    #+#             */
-/*   Updated: 2017/11/05 15:37:26 by sgardner         ###   ########.fr       */
+/*   Updated: 2017/11/05 21:27:54 by sgardner         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,10 +80,14 @@ int			dir_len(char *path, int flags)
 
 void		*ls_error(char *path)
 {
+	char	*tmp;
+
 	write(2, g_app, ft_strlen(g_app));
 	write(2, ": ", 2);
 	if (path)
 	{
+		if (errno != ENOENT && (tmp = ft_strrchr(path, '/')))
+			path = tmp + 1;
 		write(2, path, ft_strlen(path));
 		write(2, ": ", 2);
 	}

@@ -24,6 +24,7 @@ SRC = \
 	ft_strdup\
 	ft_strlen\
 	ft_strnlen\
+	ft_strrchr\
 	ft_strsub\
 	ft_strupcase\
 	ft_tolower\

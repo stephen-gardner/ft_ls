@@ -6,7 +6,7 @@
 /*   By: sgardner <stephenbgardner@gmail.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/10/27 19:21:45 by sgardner          #+#    #+#             */
-/*   Updated: 2017/11/05 21:02:00 by sgardner         ###   ########.fr       */
+/*   Updated: 2017/11/05 22:01:09 by sgardner         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,15 +42,16 @@ static t_file	**build_args(char **argv, int argc, int idx, int flags)
 		return (array);
 	}
 	i = 0;
-	while (i < len)
+	while (idx < argc)
 	{
-		if (!(array[i++] = load_parent(argv[idx++], flags)))
-			return (free_args(array));
+		if (!(array[i] = load_parent(argv[idx++], flags)))
+			continue ;
+		i++;
 	}
 	if (!LSF(LS_F))
 		(LSF(LS_MTIME))
-			? heap_sort(array, len, &ftimecmp)
-			: heap_sort(array, len, &fnamecmp);
+			? heap_sort(array, i - 1, &ftimecmp)
+			: heap_sort(array, i - 1, &fnamecmp);
 	return (array);
 }
 
@@ -82,7 +83,7 @@ int				main(int argc, char **argv)
 	time(&g_time);
 	flags = 0;
 	idx = 0;
-	g_app = argv[idx++] + 2;
+	g_app = ft_strrchr(argv[idx++], '/') + 1;
 	if ((argc > 1 && !parse_flags(argv, argc, &idx, &flags))
 		|| !(args = build_args(argv, argc, idx, flags)))
 		return (1);
