@@ -6,7 +6,7 @@
 /*   By: sgardner <stephenbgardner@gmail.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/11/04 15:33:34 by sgardner          #+#    #+#             */
-/*   Updated: 2017/11/05 21:02:35 by sgardner         ###   ########.fr       */
+/*   Updated: 2017/11/06 03:58:35 by sgardner         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ const t_lsflag	g_lsflags[] = {
 
 const int		g_lsflag_count = sizeof(g_lsflags) / sizeof(t_lsflag);
 
-static int	get_flag(char c)
+static int		get_flag(char c)
 {
 	int	i;
 
@@ -43,7 +43,7 @@ static int	get_flag(char c)
 	return (0);
 }
 
-static void	print_usage(char c)
+static t_bool	print_usage(char c)
 {
 	int		i;
 
@@ -57,9 +57,10 @@ static void	print_usage(char c)
 	while (i < g_lsflag_count)
 		write(2, &g_lsflags[i++].c, 1);
 	write(2, "] [file ...]\n", 13);
+	return (FALSE);
 }
 
-t_bool		parse_flags(char **argv, int argc, int *idx, int *flags)
+t_bool			parse_flags(char **argv, int argc, int *idx, int *flags)
 {
 	char	*arg;
 	int		f;
@@ -72,15 +73,14 @@ t_bool		parse_flags(char **argv, int argc, int *idx, int *flags)
 		{
 			if ((f = get_flag(*arg)))
 			{
+				if (f & (LS_GROUP | LS_OMIT_GROUP))
+					*flags |= LS_L;
 				if ((*flags & LS_L) && f == LS_1)
 					*flags ^= LS_L;
 				*flags |= f;
 			}
 			else
-			{
-				print_usage(*arg);
-				return (FALSE);
-			}
+				return (print_usage(*arg));
 		}
 		(*idx)++;
 	}
