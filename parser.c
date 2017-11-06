@@ -6,7 +6,7 @@
 /*   By: sgardner <stephenbgardner@gmail.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/11/04 15:33:34 by sgardner          #+#    #+#             */
-/*   Updated: 2017/11/05 15:11:45 by sgardner         ###   ########.fr       */
+/*   Updated: 2017/11/05 20:35:22 by sgardner         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,7 +71,11 @@ t_bool			parse_flags(int *flags, char **argv, int *idx, int argc)
 		while (*(++arg))
 		{
 			if ((f = get_flag(*arg)))
+			{
+				if ((*flags & LS_L) && f == LS_1)
+					*flags ^= LS_L;
 				*flags |= f;
+			}
 			else
 			{
 				print_usage(*arg);
