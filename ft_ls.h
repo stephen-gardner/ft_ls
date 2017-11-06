@@ -6,7 +6,7 @@
 /*   By: sgardner <stephenbgardner@gmail.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/10/27 19:21:24 by sgardner          #+#    #+#             */
-/*   Updated: 2017/11/05 20:59:53 by sgardner         ###   ########.fr       */
+/*   Updated: 2017/11/06 02:49:53 by sgardner         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,7 +103,7 @@ void					print_recursive(t_file *file, int flags);
 */
 
 void					heap_sort(t_file **children, int child_count,
-		int (*cmp)(const t_file *, const t_file *));
+		int flags);
 
 int						fnamecmp(const t_file *f1, const t_file *f2);
 

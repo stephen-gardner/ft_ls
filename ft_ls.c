@@ -6,7 +6,7 @@
 /*   By: sgardner <stephenbgardner@gmail.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/10/27 19:21:45 by sgardner          #+#    #+#             */
-/*   Updated: 2017/11/05 22:01:09 by sgardner         ###   ########.fr       */
+/*   Updated: 2017/11/06 02:54:39 by sgardner         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,9 +49,7 @@ static t_file	**build_args(char **argv, int argc, int idx, int flags)
 		i++;
 	}
 	if (!LSF(LS_F))
-		(LSF(LS_MTIME))
-			? heap_sort(array, i - 1, &ftimecmp)
-			: heap_sort(array, i - 1, &fnamecmp);
+		heap_sort(array, i - 1, flags);
 	return (array);
 }
 

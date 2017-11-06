@@ -6,7 +6,7 @@
 /*   By: sgardner <stephenbgardner@gmail.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/11/01 17:23:58 by sgardner          #+#    #+#             */
-/*   Updated: 2017/11/05 19:44:49 by sgardner         ###   ########.fr       */
+/*   Updated: 2017/11/06 02:53:55 by sgardner         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,14 +47,13 @@ static void		print_files(t_file *file, int flags)
 		if (file->child_count > 0)
 			ft_printf("total %lld\n", count_blocks(file->children));
 	}
-	i = (LSF(LS_REV) && !LSF(LS_F)) ? file->child_count - 1 : 0;
-	while ((LSF(LS_REV) && !LSF(LS_F)) ? i > -1 : i < file->child_count)
+	i = 0;
+	while (i < file->child_count)
 	{
-		child = file->children[i];
+		child = file->children[i++];
 		(LSF(LS_L))
 			? print_long(child->stats, file->maxlen, flags)
 			: ft_printf("%s\n", child->name);
-		i += (LSF(LS_REV) && !LSF(LS_F)) ? -1 : 1;
 	}
 }
 
@@ -74,9 +73,7 @@ static t_file	*get_next_folder(t_file *file, int flags)
 			continue ;
 		}
 		if (child->child_count && !LSF(LS_F))
-			(LSF(LS_MTIME))
-				? heap_sort(child->children, child->child_count, &ftimecmp)
-				: heap_sort(child->children, child->child_count, &fnamecmp);
+			heap_sort(child->children, child->child_count, flags);
 		print_files(child, flags);
 		return (child);
 	}
@@ -94,9 +91,7 @@ void			print_recursive(t_file *file, int flags)
 	int	i;
 
 	if (file->child_count && !LSF(LS_F))
-		(LSF(LS_MTIME))
-			? heap_sort(file->children, file->child_count, &ftimecmp)
-			: heap_sort(file->children, file->child_count, &fnamecmp);
+		heap_sort(file->children, file->child_count, flags);
 	print_files(file, flags);
 	if (!LSF(LS_REC) || !file->child_count)
 	{
