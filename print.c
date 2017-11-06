@@ -6,15 +6,23 @@
 /*   By: sgardner <stephenbgardner@gmail.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/11/01 17:23:58 by sgardner          #+#    #+#             */
-/*   Updated: 2017/11/06 02:53:55 by sgardner         ###   ########.fr       */
+/*   Updated: 2017/11/06 15:43:33 by sgardner         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_ls.h"
 
-static void		print_long(char **stats, int *maxlen, int flags)
+static void		print_long(t_file *file, int *maxlen, int flags)
 {
-	ft_printf("%s  ", stats[0]);
+	char	**stats;
+	char	xattr;
+
+	stats = file->stats;
+	if (listxattr(file->path, NULL, 0, XATTR_NOFOLLOW) > 0)
+		xattr = '@';
+	else
+		xattr = ' ';
+	ft_printf("%s%c ", stats[0], xattr);
 	ft_printf("%*s ", (maxlen) ? maxlen[0] : ft_strlen(stats[1]), stats[1]);
 	if (!LSF(LS_GROUP))
 		ft_printf("%-*s  ",
@@ -37,7 +45,7 @@ static void		print_files(t_file *file, int flags)
 	if (!file->children)
 	{
 		(LSF(LS_L))
-			? print_long(file->stats, NULL, flags)
+			? print_long(file, NULL, flags)
 			: ft_printf("%s\n", file->name);
 		return ;
 	}
@@ -52,7 +60,7 @@ static void		print_files(t_file *file, int flags)
 	{
 		child = file->children[i++];
 		(LSF(LS_L))
-			? print_long(child->stats, file->maxlen, flags)
+			? print_long(child, file->maxlen, flags)
 			: ft_printf("%s\n", child->name);
 	}
 }

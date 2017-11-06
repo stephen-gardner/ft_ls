@@ -6,7 +6,7 @@
 /*   By: sgardner <stephenbgardner@gmail.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/10/27 19:21:24 by sgardner          #+#    #+#             */
-/*   Updated: 2017/11/06 13:54:16 by sgardner         ###   ########.fr       */
+/*   Updated: 2017/11/06 15:15:25 by sgardner         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,7 @@
 # include <pwd.h>
 # include <stdio.h>
 # include <sys/stat.h>
+# include <sys/xattr.h>
 # include <time.h>
 # include <unistd.h>
 # include "ft_printf.h"
