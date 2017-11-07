@@ -6,7 +6,7 @@
 /*   By: sgardner <stephenbgardner@gmail.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/10/30 21:02:06 by sgardner          #+#    #+#             */
-/*   Updated: 2017/11/06 14:35:42 by sgardner         ###   ########.fr       */
+/*   Updated: 2017/11/06 20:18:36 by sgardner         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ static char		*get_perms(mode_t st_mode)
 {
 	char	*perms;
 
-	if (!(perms = (char *)malloc(11)))
+	if (!(perms = (char *)malloc(12)))
 		return (NULL);
 	perms[0] = get_type(st_mode);
 	perms[1] = (USR(st_mode, S_IRUSR)) ? 'r' : '-';
@@ -56,7 +56,7 @@ static char		*get_perms(mode_t st_mode)
 		perms[9] = (OTH(st_mode, S_IXOTH)) ? 't' : 'T';
 	else
 		perms[9] = (OTH(st_mode, S_IXOTH)) ? 'x' : '-';
-	perms[10] = '\0';
+	perms[11] = '\0';
 	return (perms);
 }
 
@@ -108,6 +108,8 @@ t_bool			load_stats(t_file *file, t_stat *stats, int flags)
 		|| !(file->stats[4] = ft_itoa(stats->st_size))
 		|| !(file->stats[5] = get_time_str(file, stats, flags)))
 		return (FALSE);
+	file->stats[0][10] = (listxattr(file->path, NULL, 0, XATTR_NOFOLLOW) > 0)
+		? '@' : ' ';
 	file->stats[6] = (FMT(stats->st_mode, S_IFLNK)) ?
 		build_link(file->name, file->path) : ft_strdup(file->name);
 	return ((file->stats[6]) ? TRUE : FALSE);

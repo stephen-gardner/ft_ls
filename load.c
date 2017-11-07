@@ -6,7 +6,7 @@
 /*   By: sgardner <stephenbgardner@gmail.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/10/27 22:17:59 by sgardner          #+#    #+#             */
-/*   Updated: 2017/11/06 14:55:30 by sgardner         ###   ########.fr       */
+/*   Updated: 2017/11/06 20:06:15 by sgardner         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,30 +25,30 @@ t_file		*build_file(char *path, t_dirent *dp, int flags)
 		|| !(file->path = ft_strdup(path)))
 	{
 		free(stats);
-		return (free_file(file));
+		return (free_file(&file));
 	}
 	res = lstat(path, stats);
 	if (res < 0 || !load_stats(file, stats, flags))
 	{
-		free(stats);
 		ls_error(path);
-		return (free_file(file));
+		free_file(&file);
 	}
 	free(stats);
 	return (file);
 }
 
-void		*free_file(t_file *file)
+void		*free_file(t_file **file)
 {
 	int	i;
 
-	free(file->name);
-	free(file->path);
+	free((*file)->name);
+	free((*file)->path);
 	i = 0;
-	while (file->stats[i])
-		free(file->stats[i++]);
-	free(file->children);
-	free(file);
+	while ((*file)->stats[i])
+		free((*file)->stats[i++]);
+	free((*file)->children);
+	free(*file);
+	*file = NULL;
 	return (NULL);
 }
 
@@ -91,21 +91,14 @@ t_file		*load_parent(char *path, int flags)
 		|| !(file->name = ft_strdup(path))
 		|| !(file->path = ft_strdup(path))
 		|| !(stats = (t_stat *)ft_memalloc(sizeof(t_stat)))
-		|| lstat(path, stats) < 0
+		|| stat(path, stats) < 0
 		|| !load_stats(file, stats, flags))
 	{
-		free(stats);
 		ls_error(path);
-		return (free_file(file));
+		free_file(&file);
 	}
-	if (FMT(stats->st_mode, S_IFDIR))
-	{
-		if (!load_children(file, flags))
-		{
-			free(stats);
-			return (free_file(file));
-		}
-	}
+	if (FMT(stats->st_mode, S_IFDIR) && !load_children(file, flags))
+		free_file(&file);
 	free(stats);
 	return (file);
 }

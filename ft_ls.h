@@ -6,7 +6,7 @@
 /*   By: sgardner <stephenbgardner@gmail.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/10/27 19:21:24 by sgardner          #+#    #+#             */
-/*   Updated: 2017/11/06 15:15:25 by sgardner         ###   ########.fr       */
+/*   Updated: 2017/11/06 21:08:16 by sgardner         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,6 +50,7 @@ typedef struct			s_lsflag
 {
 	char	c;
 	int		flag;
+	char	*conflicts;
 }						t_lsflag;
 
 enum	e_lsflags
@@ -80,7 +81,7 @@ void					set_padding(t_file *file);
 
 t_file					*build_file(char *path, t_dirent *dp, int flags);
 
-void					*free_file(t_file *file);
+void					*free_file(t_file **file);
 
 t_bool					load_children(t_file *file, int flags);
 

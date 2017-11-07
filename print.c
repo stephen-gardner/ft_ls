@@ -6,23 +6,15 @@
 /*   By: sgardner <stephenbgardner@gmail.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/11/01 17:23:58 by sgardner          #+#    #+#             */
-/*   Updated: 2017/11/06 15:43:33 by sgardner         ###   ########.fr       */
+/*   Updated: 2017/11/06 20:21:40 by sgardner         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_ls.h"
 
-static void		print_long(t_file *file, int *maxlen, int flags)
+static void		print_long(char **stats, int *maxlen, int flags)
 {
-	char	**stats;
-	char	xattr;
-
-	stats = file->stats;
-	if (listxattr(file->path, NULL, 0, XATTR_NOFOLLOW) > 0)
-		xattr = '@';
-	else
-		xattr = ' ';
-	ft_printf("%s%c ", stats[0], xattr);
+	ft_printf("%s ", stats[0]);
 	ft_printf("%*s ", (maxlen) ? maxlen[0] : ft_strlen(stats[1]), stats[1]);
 	if (!LSF(LS_GROUP))
 		ft_printf("%-*s  ",
@@ -45,7 +37,7 @@ static void		print_files(t_file *file, int flags)
 	if (!file->children)
 	{
 		(LSF(LS_L))
-			? print_long(file, NULL, flags)
+			? print_long(file->stats, NULL, flags)
 			: ft_printf("%s\n", file->name);
 		return ;
 	}
@@ -60,7 +52,7 @@ static void		print_files(t_file *file, int flags)
 	{
 		child = file->children[i++];
 		(LSF(LS_L))
-			? print_long(child, file->maxlen, flags)
+			? print_long(child->stats, file->maxlen, flags)
 			: ft_printf("%s\n", child->name);
 	}
 }
@@ -77,7 +69,7 @@ static t_file	*get_next_folder(t_file *file, int flags)
 			|| !ft_printf("\n%s:\n", child->path)
 			|| !load_children(child, flags))
 		{
-			free_file(child);
+			free_file(&child);
 			continue ;
 		}
 		if (child->child_count && !LSF(LS_F))
@@ -86,7 +78,7 @@ static t_file	*get_next_folder(t_file *file, int flags)
 		return (child);
 	}
 	child = (file->parent) ? file->parent : NULL;
-	free_file(file);
+	free_file(&file);
 	return (child);
 }
 
@@ -105,8 +97,8 @@ void			print_recursive(t_file *file, int flags)
 	{
 		i = 0;
 		while (i < file->child_count)
-			free_file(file->children[i++]);
-		free_file(file);
+			free_file(&file->children[i++]);
+		free_file(&file);
 		return ;
 	}
 	while ((file = get_next_folder(file, flags)))
