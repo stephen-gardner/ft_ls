@@ -6,7 +6,7 @@
 /*   By: sgardner <stephenbgardner@gmail.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/10/27 22:17:59 by sgardner          #+#    #+#             */
-/*   Updated: 2017/11/06 20:06:15 by sgardner         ###   ########.fr       */
+/*   Updated: 2017/11/07 01:31:54 by sgardner         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,14 +91,18 @@ t_file		*load_parent(char *path, int flags)
 		|| !(file->name = ft_strdup(path))
 		|| !(file->path = ft_strdup(path))
 		|| !(stats = (t_stat *)ft_memalloc(sizeof(t_stat)))
-		|| stat(path, stats) < 0
+		|| lstat(path, stats) < 0
 		|| !load_stats(file, stats, flags))
 	{
 		ls_error(path);
 		free_file(&file);
 	}
-	if (FMT(stats->st_mode, S_IFDIR) && !load_children(file, flags))
-		free_file(&file);
+	if (FMT(stats->st_mode, S_IFDIR)
+		|| FMT(stats->st_mode, S_IFLNK && is_symdir(file)))
+	{
+		if (!load_children(file, flags))
+			free_file(&file);
+	}
 	free(stats);
 	return (file);
 }

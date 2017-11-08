@@ -6,7 +6,7 @@
 /*   By: sgardner <stephenbgardner@gmail.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/10/30 21:02:06 by sgardner          #+#    #+#             */
-/*   Updated: 2017/11/06 20:18:36 by sgardner         ###   ########.fr       */
+/*   Updated: 2017/11/07 01:32:24 by sgardner         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,6 +90,22 @@ static char		*get_time_str(t_file *file, t_stat *stats, int flags)
 			ft_memmove(ftime + 7, ftime + 15, 6);
 	}
 	return (ftime);
+}
+
+t_bool			is_symdir(t_file *file)
+{
+	t_stat		*stats;
+	t_bool		symdir;
+
+	if (!(stats = (t_stat *)ft_memalloc(sizeof(t_stat)))
+		|| stat(file->path, stats) < 0)
+	{
+		free(stats);
+		return (FALSE);
+	}
+	symdir = FMT(stats->st_mode, S_IFDIR);
+	free(stats);
+	return (symdir);
 }
 
 t_bool			load_stats(t_file *file, t_stat *stats, int flags)

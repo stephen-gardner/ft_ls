@@ -6,7 +6,7 @@
 /*   By: sgardner <stephenbgardner@gmail.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/10/27 19:21:24 by sgardner          #+#    #+#             */
-/*   Updated: 2017/11/06 21:08:16 by sgardner         ###   ########.fr       */
+/*   Updated: 2017/11/06 22:18:02 by sgardner         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -115,6 +115,7 @@ void					sort_types(t_file **children);
 ** stat.c
 */
 
+t_bool					is_symdir(t_file *file);
 t_bool					load_stats(t_file *file, t_stat *stats, int flags);
 
 /*
