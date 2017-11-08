@@ -6,7 +6,7 @@
 /*   By: sgardner <stephenbgardner@gmail.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/11/04 15:33:34 by sgardner          #+#    #+#             */
-/*   Updated: 2017/11/06 17:03:15 by sgardner         ###   ########.fr       */
+/*   Updated: 2017/11/07 18:00:00 by sgardner         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,18 +43,31 @@ static const t_lsflag	*get_flag(char c)
 	return (NULL);
 }
 
-static void				clear_conflicts(const t_lsflag *flag, int *flags)
+static int				is_hyphenf(char *arg)
 {
-	int	i;
-	int	conflict;
+	DIR			*dir;
+	t_dirent	*dp;
+	int			n;
+	int			i;
+	t_bool		res;
 
-	i = 0;
-	while (flag->conflicts[i])
+	n = 0;
+	while (arg[n] == '-')
+		n++;
+	if (!(dir = ls_open(".")))
+		return (0);
+	res = FALSE;
+	while ((dp = ls_read(dir, ".")))
 	{
-		conflict = get_flag(flag->conflicts[i++])->flag;
-		if (*flags & conflict)
-			*flags ^= conflict;
+		i = 0;
+		while (i < n && dp->d_name[i] == '-')
+			i++;
+		if (i == n - 1 && !dp->d_name[i])
+			res = TRUE;
 	}
+	if (ls_close(dir, ".") < 0)
+		return (0);
+	return ((res) ? i : 0);
 }
 
 static t_bool			print_usage(char c)
@@ -74,6 +87,23 @@ static t_bool			print_usage(char c)
 	return (FALSE);
 }
 
+static void				set_flag(const t_lsflag *f, int *flags)
+{
+	int	i;
+	int	conflict;
+
+	i = 0;
+	while (f->conflicts[i])
+	{
+		conflict = get_flag(f->conflicts[i++])->flag;
+		if (*flags & conflict)
+			*flags ^= conflict;
+	}
+	if (f->flag & (LS_GROUP | LS_OMIT_GROUP))
+		*flags |= LS_L;
+	*flags |= f->flag;
+}
+
 t_bool					parse_flags(char **argv, int argc, int *idx, int *flags)
 {
 	char			*arg;
@@ -83,17 +113,20 @@ t_bool					parse_flags(char **argv, int argc, int *idx, int *flags)
 	{
 		if (*arg != '-' || !*(arg + 1))
 			break ;
-		while (*(++arg))
+		if (*(++arg) == '-')
 		{
-			if ((f = get_flag(*arg)))
-			{
-				clear_conflicts(f, flags);
-				if (f->flag & (LS_GROUP | LS_OMIT_GROUP))
-					*flags |= LS_L;
-				*flags |= f->flag;
-			}
-			else
+			if ((*idx > 2 && *(arg + 1) == '-' && !is_hyphenf(arg))
+				|| (*(arg + 1) == '-'))
 				return (print_usage(*arg));
+			else
+				(*idx)++;
+			break ;
+		}
+		while (*arg)
+		{
+			if (!(f = get_flag(*arg++)))
+				return (print_usage(*(arg - 1)));
+			set_flag(f, flags);
 		}
 		(*idx)++;
 	}
