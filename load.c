@@ -6,7 +6,7 @@
 /*   By: sgardner <stephenbgardner@gmail.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/10/27 22:17:59 by sgardner          #+#    #+#             */
-/*   Updated: 2017/11/07 20:58:11 by sgardner         ###   ########.fr       */
+/*   Updated: 2017/11/08 01:15:12 by sgardner         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,7 +98,7 @@ t_file		*load_parent(char *path, int flags)
 		free_file(&file);
 	}
 	if (FMT(stats->st_mode, S_IFDIR)
-		|| FMT(stats->st_mode, S_IFLNK && is_symdir(file)))
+		|| (FMT(stats->st_mode, S_IFLNK) && is_symdir(file, flags)))
 	{
 		if (!load_children(file, flags))
 			free_file(&file);

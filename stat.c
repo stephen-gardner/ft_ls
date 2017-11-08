@@ -6,7 +6,7 @@
 /*   By: sgardner <stephenbgardner@gmail.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/10/30 21:02:06 by sgardner          #+#    #+#             */
-/*   Updated: 2017/11/07 23:05:29 by sgardner         ###   ########.fr       */
+/*   Updated: 2017/11/08 01:09:56 by sgardner         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,7 +92,7 @@ static char		*get_time_str(t_file *file, t_stat *stats, int flags)
 	return (ftime);
 }
 
-t_bool			is_symdir(t_file *file)
+t_bool			is_symdir(t_file *file, int flags)
 {
 	t_stat		*stats;
 	t_bool		symdir;
@@ -105,7 +105,7 @@ t_bool			is_symdir(t_file *file)
 	}
 	symdir = FMT(stats->st_mode, S_IFDIR);
 	free(stats);
-	return (symdir);
+	return (LSF(LS_L) ? FALSE : symdir);
 }
 
 t_bool			load_stats(t_file *file, t_stat *stats, int flags)
