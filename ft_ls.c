@@ -6,7 +6,7 @@
 /*   By: sgardner <stephenbgardner@gmail.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/10/27 19:21:45 by sgardner          #+#    #+#             */
-/*   Updated: 2017/11/06 14:22:27 by sgardner         ###   ########.fr       */
+/*   Updated: 2017/11/08 00:15:11 by sgardner         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,22 +50,34 @@ static t_file	**build_args(char **argv, int argc, int idx, int flags)
 		i++;
 	}
 	sort_types(array);
-	if (!LSF(LS_F) && LSF(LS_MTIME))
-		heap_sort(array, i, flags);
+//	if (!LSF(LS_F))
+//		heap_sort(array, i, flags);
 	return (array);
 }
 
 static int		get_max_width(t_file **children, int field)
 {
-	int	max;
-	int	len;
-	int	i;
+	t_file	*ch;
+	int		max;
+	int		len;
+	int		i;
+	int		tmp;
 
 	max = 0;
 	i = 0;
-	while (children[i])
+	while ((ch = children[i++]))
 	{
-		len = ft_strlen(children[i++]->stats[field]);
+		len = 0;
+		if (field == 4 && (ch->stats[0][0] == 'b' || ch->stats[0][0] == 'c'))
+		{
+			if ((len = ft_strlen(ch->stats[7])) > ch->parent->maxlen[4])
+				ch->parent->maxlen[4] = len;
+			if ((len = ft_strlen(ch->stats[8])) > ch->parent->maxlen[5])
+				ch->parent->maxlen[5] = len;
+			len = ch->parent->maxlen[4] + ch->parent->maxlen[5] + 3;
+		}
+		if ((tmp = ft_strlen(ch->stats[field])) > len)
+			len = tmp;
 		if (len > max)
 			max = len;
 	}

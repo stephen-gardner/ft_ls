@@ -6,25 +6,31 @@
 /*   By: sgardner <stephenbgardner@gmail.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/11/01 17:23:58 by sgardner          #+#    #+#             */
-/*   Updated: 2017/11/06 20:21:40 by sgardner         ###   ########.fr       */
+/*   Updated: 2017/11/07 23:53:57 by sgardner         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_ls.h"
 
-static void		print_long(char **stats, int *maxlen, int flags)
+static void		print_long(char **stats, int *max, int flags)
 {
 	ft_printf("%s ", stats[0]);
-	ft_printf("%*s ", (maxlen) ? maxlen[0] : ft_strlen(stats[1]), stats[1]);
+	ft_printf("%*s ", (max) ? max[0] : ft_strlen(stats[1]), stats[1]);
 	if (!LSF(LS_GROUP))
 		ft_printf("%-*s  ",
-				(maxlen) ? maxlen[1] : ft_strlen(stats[2]), stats[2]);
+				(max) ? max[1] : ft_strlen(stats[2]), stats[2]);
 	if (!LSF(LS_OMIT_GROUP))
 		ft_printf("%-*s  ",
-				(maxlen) ? maxlen[2] : ft_strlen(stats[3]), stats[3]);
+				(max) ? max[2] : ft_strlen(stats[3]), stats[3]);
 	if (LSF(LS_GROUP) && LSF(LS_OMIT_GROUP))
 		write(1, "  ", 2);
-	ft_printf("%*s ", (maxlen) ? maxlen[3] : ft_strlen(stats[4]), stats[4]);
+	if (stats[0][0] == 'b' || stats[0][0] == 'c')
+	{
+		ft_printf(" %*s, %*s ", (max) ? max[4] : ft_strlen(stats[7]), stats[7],
+				(max) ? max[5] : ft_strlen(stats[8]), stats[8]);
+	}
+	else
+		ft_printf("%*s ", (max) ? max[3] : ft_strlen(stats[4]), stats[4]);
 	ft_printf("%s ", stats[5]);
 	ft_printf("%s\n", stats[6]);
 }

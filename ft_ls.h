@@ -6,7 +6,7 @@
 /*   By: sgardner <stephenbgardner@gmail.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/10/27 19:21:24 by sgardner          #+#    #+#             */
-/*   Updated: 2017/11/06 22:18:02 by sgardner         ###   ########.fr       */
+/*   Updated: 2017/11/08 00:18:21 by sgardner         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,8 +37,8 @@ typedef struct			s_file
 	char			*name;
 	char			*path;
 	long long		block_size;
-	char			*stats[8];
-	int				maxlen[4];
+	char			*stats[10];
+	int				maxlen[6];
 	struct timespec	timestamp;
 	struct s_file	*parent;
 	struct s_file	**children;

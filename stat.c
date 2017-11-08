@@ -6,7 +6,7 @@
 /*   By: sgardner <stephenbgardner@gmail.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/10/30 21:02:06 by sgardner          #+#    #+#             */
-/*   Updated: 2017/11/07 01:32:24 by sgardner         ###   ########.fr       */
+/*   Updated: 2017/11/07 23:05:29 by sgardner         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -122,11 +122,17 @@ t_bool			load_stats(t_file *file, t_stat *stats, int flags)
 		|| !(file->stats[2] = ft_strdup(pw->pw_name))
 		|| !(file->stats[3] = ft_strdup(gr->gr_name))
 		|| !(file->stats[4] = ft_itoa(stats->st_size))
-		|| !(file->stats[5] = get_time_str(file, stats, flags)))
+		|| !(file->stats[5] = get_time_str(file, stats, flags))
+		|| !(file->stats[6] = (FMT(stats->st_mode, S_IFLNK)) ?
+			build_link(file->name, file->path) : ft_strdup(file->name)))
 		return (FALSE);
+	if (file->stats[0][0] == 'b' || file->stats[0][0] == 'c')
+	{
+		if (!(file->stats[7] = ft_itoa(major(stats->st_rdev)))
+			|| !(file->stats[8] = ft_itoa(minor(stats->st_rdev))))
+			return (FALSE);
+	}
 	file->stats[0][10] = (listxattr(file->path, NULL, 0, XATTR_NOFOLLOW) > 0)
 		? '@' : ' ';
-	file->stats[6] = (FMT(stats->st_mode, S_IFLNK)) ?
-		build_link(file->name, file->path) : ft_strdup(file->name);
-	return ((file->stats[6]) ? TRUE : FALSE);
+	return (TRUE);
 }

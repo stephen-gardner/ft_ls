@@ -6,7 +6,7 @@
 /*   By: sgardner <stephenbgardner@gmail.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/10/27 22:17:59 by sgardner          #+#    #+#             */
-/*   Updated: 2017/11/07 01:31:54 by sgardner         ###   ########.fr       */
+/*   Updated: 2017/11/07 20:58:11 by sgardner         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,7 +67,7 @@ t_bool		load_children(t_file *file, int flags)
 	i = 0;
 	while ((dp = ls_read(dir, file->path)))
 	{
-		if (!LSF(LS_A) && !LSF(LS_F) && *dp->d_name == '.')
+		if (!LSF(LS_A) && *dp->d_name == '.')
 			continue ;
 		if (!(cpath = build_path(file->path, dp->d_name))
 			|| !(file->children[i] = build_file(cpath, dp, flags))

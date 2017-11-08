@@ -6,7 +6,7 @@
 /*   By: sgardner <stephenbgardner@gmail.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/11/04 15:33:34 by sgardner          #+#    #+#             */
-/*   Updated: 2017/11/07 18:00:00 by sgardner         ###   ########.fr       */
+/*   Updated: 2017/11/07 21:03:56 by sgardner         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,10 +54,10 @@ static int				is_hyphenf(char *arg)
 	n = 0;
 	while (arg[n] == '-')
 		n++;
-	if (!(dir = ls_open(".")))
+	if (!(dir = opendir(".")))
 		return (0);
 	res = FALSE;
-	while ((dp = ls_read(dir, ".")))
+	while ((dp = readdir(dir)))
 	{
 		i = 0;
 		while (i < n && dp->d_name[i] == '-')
@@ -65,7 +65,7 @@ static int				is_hyphenf(char *arg)
 		if (i == n - 1 && !dp->d_name[i])
 			res = TRUE;
 	}
-	if (ls_close(dir, ".") < 0)
+	if (closedir(dir) < 0)
 		return (0);
 	return ((res) ? i : 0);
 }
@@ -99,6 +99,8 @@ static void				set_flag(const t_lsflag *f, int *flags)
 		if (*flags & conflict)
 			*flags ^= conflict;
 	}
+	if (f->flag & LS_F)
+		*flags |= LS_A;
 	if (f->flag & (LS_GROUP | LS_OMIT_GROUP))
 		*flags |= LS_L;
 	*flags |= f->flag;
