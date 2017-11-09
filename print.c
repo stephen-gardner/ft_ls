@@ -6,31 +6,28 @@
 /*   By: sgardner <stephenbgardner@gmail.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/11/01 17:23:58 by sgardner          #+#    #+#             */
-/*   Updated: 2017/11/07 23:53:57 by sgardner         ###   ########.fr       */
+/*   Updated: 2017/11/09 20:28:13 by sgardner         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_ls.h"
 
+#define VWF(x, y) (max) ? max[x] : ft_strlen(stats[y]), stats[y]
+
 static void		print_long(char **stats, int *max, int flags)
 {
 	ft_printf("%s ", stats[0]);
-	ft_printf("%*s ", (max) ? max[0] : ft_strlen(stats[1]), stats[1]);
+	ft_printf("%*s ", VWF(0, 1));
 	if (!LSF(LS_GROUP))
-		ft_printf("%-*s  ",
-				(max) ? max[1] : ft_strlen(stats[2]), stats[2]);
+		ft_printf("%-*s  ", VWF(1, 2));
 	if (!LSF(LS_OMIT_GROUP))
-		ft_printf("%-*s  ",
-				(max) ? max[2] : ft_strlen(stats[3]), stats[3]);
+		ft_printf("%-*s  ", VWF(2, 3));
 	if (LSF(LS_GROUP) && LSF(LS_OMIT_GROUP))
 		write(1, "  ", 2);
 	if (stats[0][0] == 'b' || stats[0][0] == 'c')
-	{
-		ft_printf(" %*s, %*s ", (max) ? max[4] : ft_strlen(stats[7]), stats[7],
-				(max) ? max[5] : ft_strlen(stats[8]), stats[8]);
-	}
+		ft_printf(" %*s, %*s ", VWF(4, 7), VWF(5, 8));
 	else
-		ft_printf("%*s ", (max) ? max[3] : ft_strlen(stats[4]), stats[4]);
+		ft_printf("%*s ", VWF(3, 4));
 	ft_printf("%s ", stats[5]);
 	ft_printf("%s\n", stats[6]);
 }
@@ -50,13 +47,12 @@ static void		print_files(t_file *file, int flags)
 	if (LSF(LS_L))
 	{
 		set_padding(file);
-		if (file->child_count > 0)
+		if (file->child_count)
 			ft_printf("total %lld\n", count_blocks(file->children));
 	}
 	i = 0;
-	while (i < file->child_count)
+	while ((child = file->children[i++]))
 	{
-		child = file->children[i++];
 		(LSF(LS_L))
 			? print_long(child->stats, file->maxlen, flags)
 			: ft_printf("%s\n", child->name);
@@ -78,7 +74,7 @@ static t_file	*get_next_folder(t_file *file, int flags)
 			free_file(&child);
 			continue ;
 		}
-		if (child->child_count && !LSF(LS_F))
+		if (file->child_count && !LSF(LS_F))
 			heap_sort(child->children, child->child_count, flags);
 		print_files(child, flags);
 		return (child);

@@ -6,7 +6,7 @@
 /*   By: sgardner <stephenbgardner@gmail.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/11/03 15:07:58 by sgardner          #+#    #+#             */
-/*   Updated: 2017/11/06 13:52:44 by sgardner         ###   ########.fr       */
+/*   Updated: 2017/11/08 22:50:55 by sgardner         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,10 +24,10 @@ static int	cmp(const t_file *f1, const t_file *f2, int flags)
 	}
 	if (LSF(LS_MTIME))
 	{
-		if (f2->timestamp.tv_sec != f1->timestamp.tv_sec)
-			return (f2->timestamp.tv_sec > f1->timestamp.tv_sec);
-		if (f2->timestamp.tv_nsec != f1->timestamp.tv_nsec)
-			return (f2->timestamp.tv_nsec > f1->timestamp.tv_nsec);
+		if (f1->timestamp.tv_sec != f2->timestamp.tv_sec)
+			return (f1->timestamp.tv_sec < f2->timestamp.tv_sec);
+		if (f1->timestamp.tv_nsec != f2->timestamp.tv_nsec)
+			return (f1->timestamp.tv_nsec < f2->timestamp.tv_nsec);
 	}
 	return (ft_strcmp(f1->name, f2->name));
 }

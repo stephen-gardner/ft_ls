@@ -6,7 +6,7 @@
 /*   By: sgardner <stephenbgardner@gmail.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/10/31 11:28:35 by sgardner          #+#    #+#             */
-/*   Updated: 2017/11/07 20:57:48 by sgardner         ###   ########.fr       */
+/*   Updated: 2017/11/08 22:27:24 by sgardner         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,8 +19,7 @@ char		*build_path(char *parent, char *child)
 
 	if (!(path = (char *)malloc(ft_strlen(parent) + ft_strlen(child) + 2)))
 		return (NULL);
-	tmp = path;
-	tmp = ft_stpcpy(tmp, parent);
+	tmp = ft_stpcpy(path, parent);
 	if (*(tmp - 1) != '/')
 		*tmp++ = '/';
 	tmp = ft_stpcpy(tmp, child);

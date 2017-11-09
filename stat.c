@@ -6,7 +6,7 @@
 /*   By: sgardner <stephenbgardner@gmail.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/10/30 21:02:06 by sgardner          #+#    #+#             */
-/*   Updated: 2017/11/08 01:09:56 by sgardner         ###   ########.fr       */
+/*   Updated: 2017/11/09 20:15:53 by sgardner         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,10 @@ static char		get_type(mode_t st_mode)
 	return ('-');
 }
 
+#define USR(x, a, b) ((st_mode & S_IRWXU) & x) ? a : b
+#define GRP(x, a, b) ((st_mode & S_IRWXG) & x) ? a : b
+#define OTH(x, a, b) ((st_mode & S_IRWXO) & x) ? a : b
+
 static char		*get_perms(mode_t st_mode)
 {
 	char	*perms;
@@ -38,24 +42,18 @@ static char		*get_perms(mode_t st_mode)
 	if (!(perms = (char *)malloc(12)))
 		return (NULL);
 	perms[0] = get_type(st_mode);
-	perms[1] = (USR(st_mode, S_IRUSR)) ? 'r' : '-';
-	perms[2] = (USR(st_mode, S_IWUSR)) ? 'w' : '-';
-	if (st_mode & S_ISUID)
-		perms[3] = (USR(st_mode, S_IXUSR)) ? 's' : 'S';
-	else
-		perms[3] = (USR(st_mode, S_IXUSR)) ? 'x' : '-';
-	perms[4] = (GRP(st_mode, S_IRGRP)) ? 'r' : '-';
-	perms[5] = (GRP(st_mode, S_IWGRP)) ? 'w' : '-';
-	if (st_mode & S_ISGID)
-		perms[6] = (GRP(st_mode, S_IXGRP)) ? 's' : 'S';
-	else
-		perms[6] = (GRP(st_mode, S_IXGRP)) ? 'x' : '-';
-	perms[7] = (OTH(st_mode, S_IROTH)) ? 'r' : '-';
-	perms[8] = (OTH(st_mode, S_IWOTH)) ? 'w' : '-';
-	if (st_mode & S_ISVTX)
-		perms[9] = (OTH(st_mode, S_IXOTH)) ? 't' : 'T';
-	else
-		perms[9] = (OTH(st_mode, S_IXOTH)) ? 'x' : '-';
+	perms[1] = USR(S_IRUSR, 'r', '-');
+	perms[2] = USR(S_IWUSR, 'w', '-');
+	perms[3] = (st_mode & S_ISUID) ?
+		USR(S_IXUSR, 's', 'S') : USR(S_IXUSR, 'x', '-');
+	perms[4] = GRP(S_IRGRP, 'r', '-');
+	perms[5] = GRP(S_IWGRP, 'w', '-');
+	perms[6] = (st_mode & S_ISGID) ?
+		GRP(S_IXGRP, 's', 'S') : GRP(S_IXGRP, 'x', '-');
+	perms[7] = OTH(S_IROTH, 'r', '-');
+	perms[8] = OTH(S_IWOTH, 'w', '-');
+	perms[9] = (st_mode & S_ISVTX) ?
+		OTH(S_IXOTH, 't', 'T') : OTH(S_IXOTH, 'x', '-');
 	perms[11] = '\0';
 	return (perms);
 }
@@ -94,8 +92,8 @@ static char		*get_time_str(t_file *file, t_stat *stats, int flags)
 
 t_bool			is_symdir(t_file *file, int flags)
 {
-	t_stat		*stats;
-	t_bool		symdir;
+	t_stat	*stats;
+	t_bool	symdir;
 
 	if (!(stats = (t_stat *)ft_memalloc(sizeof(t_stat)))
 		|| stat(file->path, stats) < 0)
@@ -104,7 +102,6 @@ t_bool			is_symdir(t_file *file, int flags)
 		return (FALSE);
 	}
 	symdir = FMT(stats->st_mode, S_IFDIR);
-	free(stats);
 	return (LSF(LS_L) ? FALSE : symdir);
 }
 
@@ -132,7 +129,7 @@ t_bool			load_stats(t_file *file, t_stat *stats, int flags)
 			|| !(file->stats[8] = ft_itoa(minor(stats->st_rdev))))
 			return (FALSE);
 	}
-	file->stats[0][10] = (listxattr(file->path, NULL, 0, XATTR_NOFOLLOW) > 0)
-		? '@' : ' ';
+	file->stats[0][10] = (listxattr(file->path, NULL, 0, XATTR_NOFOLLOW) > 0) ?
+		'@' : ' ';
 	return (TRUE);
 }

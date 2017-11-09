@@ -6,29 +6,24 @@
 /*   By: sgardner <stephenbgardner@gmail.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/10/27 22:17:59 by sgardner          #+#    #+#             */
-/*   Updated: 2017/11/08 01:15:12 by sgardner         ###   ########.fr       */
+/*   Updated: 2017/11/09 20:23:37 by sgardner         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_ls.h"
 
-t_file		*build_file(char *path, t_dirent *dp, int flags)
+t_file		*build_file(char *path, char *name, int flags)
 {
 	t_file		*file;
 	t_stat		*stats;
-	int			res;
 
 	stats = NULL;
 	if (!(file = (t_file *)ft_memalloc(sizeof(t_file)))
 		|| !(stats = (t_stat *)ft_memalloc(sizeof(t_stat)))
-		|| !(file->name = ft_strdup(dp->d_name))
+		|| !(file->name = ft_strdup(name))
 		|| !(file->path = ft_strdup(path)))
-	{
-		free(stats);
 		return (free_file(&file));
-	}
-	res = lstat(path, stats);
-	if (res < 0 || !load_stats(file, stats, flags))
+	if (lstat(path, stats) < 0 || !load_stats(file, stats, flags))
 	{
 		ls_error(path);
 		free_file(&file);
@@ -70,7 +65,7 @@ t_bool		load_children(t_file *file, int flags)
 		if (!LSF(LS_A) && *dp->d_name == '.')
 			continue ;
 		if (!(cpath = build_path(file->path, dp->d_name))
-			|| !(file->children[i] = build_file(cpath, dp, flags))
+			|| !(file->children[i] = build_file(cpath, dp->d_name, flags))
 			|| !(file->children[i++]->parent = file))
 		{
 			free(cpath);

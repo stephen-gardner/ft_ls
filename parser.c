@@ -6,7 +6,7 @@
 /*   By: sgardner <stephenbgardner@gmail.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/11/04 15:33:34 by sgardner          #+#    #+#             */
-/*   Updated: 2017/11/07 21:03:56 by sgardner         ###   ########.fr       */
+/*   Updated: 2017/11/08 22:40:38 by sgardner         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ static const t_lsflag	*get_flag(char c)
 	return (NULL);
 }
 
-static int				is_hyphenf(char *arg)
+static t_bool			is_hyphenf(char *arg)
 {
 	DIR			*dir;
 	t_dirent	*dp;
@@ -55,7 +55,7 @@ static int				is_hyphenf(char *arg)
 	while (arg[n] == '-')
 		n++;
 	if (!(dir = opendir(".")))
-		return (0);
+		return (FALSE);
 	res = FALSE;
 	while ((dp = readdir(dir)))
 	{
@@ -66,8 +66,8 @@ static int				is_hyphenf(char *arg)
 			res = TRUE;
 	}
 	if (closedir(dir) < 0)
-		return (0);
-	return ((res) ? i : 0);
+		return (FALSE);
+	return (res);
 }
 
 static t_bool			print_usage(char c)

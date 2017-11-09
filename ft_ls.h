@@ -6,7 +6,7 @@
 /*   By: sgardner <stephenbgardner@gmail.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/10/27 19:21:24 by sgardner          #+#    #+#             */
-/*   Updated: 2017/11/08 00:53:40 by sgardner         ###   ########.fr       */
+/*   Updated: 2017/11/09 02:41:37 by sgardner         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,9 +25,6 @@
 
 # define LSF(x) (flags & x)
 # define FMT(x, y) ((x & S_IFMT) == y)
-# define USR(x, y) ((x & S_IRWXU) & y)
-# define GRP(x, y) ((x & S_IRWXG) & y)
-# define OTH(x, y) ((x & S_IRWXO) & y)
 
 typedef struct dirent	t_dirent;
 typedef struct stat		t_stat;
@@ -79,7 +76,7 @@ void					set_padding(t_file *file);
 ** load.c
 */
 
-t_file					*build_file(char *path, t_dirent *dp, int flags);
+t_file					*build_file(char *path, char *name, int flags);
 
 void					*free_file(t_file **file);
 

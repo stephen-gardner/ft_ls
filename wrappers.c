@@ -6,7 +6,7 @@
 /*   By: sgardner <stephenbgardner@gmail.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/10/27 01:17:00 by sgardner          #+#    #+#             */
-/*   Updated: 2017/10/31 21:03:44 by sgardner         ###   ########.fr       */
+/*   Updated: 2017/11/08 19:57:50 by sgardner         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,11 +33,11 @@ DIR				*ls_open(char *path)
 
 struct dirent	*ls_read(DIR *dir, char *path)
 {
-	struct dirent	*file;
+	struct dirent	*dp;
 
 	errno = 0;
-	file = readdir(dir);
+	dp = readdir(dir);
 	if (errno)
 		ls_error(path);
-	return (file);
+	return (dp);
 }
