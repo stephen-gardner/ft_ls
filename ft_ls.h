@@ -6,7 +6,7 @@
 /*   By: sgardner <stephenbgardner@gmail.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/10/27 19:21:24 by sgardner          #+#    #+#             */
-/*   Updated: 2017/11/09 20:35:50 by sgardner         ###   ########.fr       */
+/*   Updated: 2017/11/09 21:44:44 by sgardner         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,6 +47,7 @@ typedef struct			s_lsflag
 {
 	char	c;
 	int		flag;
+	char	*prereqs;
 	char	*conflicts;
 }						t_lsflag;
 

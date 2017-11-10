@@ -6,26 +6,35 @@
 /*   By: sgardner <stephenbgardner@gmail.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/11/04 15:33:34 by sgardner          #+#    #+#             */
-/*   Updated: 2017/11/09 20:35:16 by sgardner         ###   ########.fr       */
+/*   Updated: 2017/11/09 21:51:36 by sgardner         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_ls.h"
 
+/*
+**  { 'l', LS_L, "", "1" }
+**     |    |    |    |
+**     |    |    |    Conflicting flags
+**     |    |   Prerequisite flags
+**     |   Flag bit value
+**    Specifier
+*/
+
 const t_lsflag	g_lsflags[] = {
-	{ 'R', LS_REC, "" },
-	{ 'T', LS_CT, "" },
-	{ 'U', LS_CTIME, "tu" },
-	{ 'a', LS_A, "" },
-	{ 'd', LS_D, "" },
-	{ 'f', LS_F, "" },
-	{ 'g', LS_GROUP, "" },
-	{ 'l', LS_L, "1" },
-	{ 'o', LS_OMIT_GROUP, "" },
-	{ 'r', LS_REV, "" },
-	{ 't', LS_MTIME, "Uu" },
-	{ 'u', LS_ATIME, "Ut" },
-	{ '1', LS_1, "l" },
+	{ 'R', LS_REC, "", "" },
+	{ 'T', LS_CT, "", "" },
+	{ 'U', LS_CTIME, "", "tu" },
+	{ 'a', LS_A, "", "" },
+	{ 'd', LS_D, "", "" },
+	{ 'f', LS_F, "a", "" },
+	{ 'g', LS_GROUP, "l", "" },
+	{ 'l', LS_L, "", "1" },
+	{ 'o', LS_OMIT_GROUP, "l", "" },
+	{ 'r', LS_REV, "", "" },
+	{ 't', LS_MTIME, "", "Uu" },
+	{ 'u', LS_ATIME, "", "Ut" },
+	{ '1', LS_1, "", "l" },
 };
 
 const int		g_lsflag_count = sizeof(g_lsflags) / sizeof(t_lsflag);
@@ -91,19 +100,18 @@ static t_bool			print_usage(char c)
 static void				set_flag(const t_lsflag *f, int *flags)
 {
 	int	i;
-	int	conflict;
+	int	c;
 
 	i = 0;
 	while (f->conflicts[i])
 	{
-		conflict = get_flag(f->conflicts[i++])->flag;
-		if (*flags & conflict)
-			*flags ^= conflict;
+		c = get_flag(f->conflicts[i++])->flag;
+		if (*flags & c)
+			*flags ^= c;
 	}
-	if (f->flag & LS_F)
-		*flags |= LS_A;
-	if (f->flag & (LS_GROUP | LS_OMIT_GROUP))
-		*flags |= LS_L;
+	i = 0;
+	while (f->prereqs[i])
+		*flags |= get_flag(f->prereqs[i++])->flag;
 	*flags |= f->flag;
 }
 
