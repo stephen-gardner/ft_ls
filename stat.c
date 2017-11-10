@@ -6,7 +6,7 @@
 /*   By: sgardner <stephenbgardner@gmail.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/10/30 21:02:06 by sgardner          #+#    #+#             */
-/*   Updated: 2017/11/09 20:15:53 by sgardner         ###   ########.fr       */
+/*   Updated: 2017/11/09 22:53:19 by sgardner         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -111,13 +111,14 @@ t_bool			load_stats(t_file *file, t_stat *stats, int flags)
 	struct group	*gr;
 
 	file->block_size = stats->st_blocks;
-	if (!(pw = getpwuid(stats->st_uid))
-		|| !(gr = getgrgid(stats->st_gid)))
-		return ((int)ls_error(file->path));
+	pw = getpwuid(stats->st_uid);
+	gr = getgrgid(stats->st_gid);
 	if (!(file->stats[0] = get_perms(stats->st_mode))
 		|| !(file->stats[1] = ft_itoa(stats->st_nlink))
-		|| !(file->stats[2] = ft_strdup(pw->pw_name))
-		|| !(file->stats[3] = ft_strdup(gr->gr_name))
+		|| !(file->stats[2] =
+			(pw) ? ft_strdup(pw->pw_name) : ft_itoa(stats->st_uid))
+		|| !(file->stats[3] =
+			(gr) ? ft_strdup(gr->gr_name) : ft_itoa(stats->st_gid))
 		|| !(file->stats[4] = ft_itoa(stats->st_size))
 		|| !(file->stats[5] = get_time_str(file, stats, flags))
 		|| !(file->stats[6] = (FMT(stats->st_mode, S_IFLNK)) ?

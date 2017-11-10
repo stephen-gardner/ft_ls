@@ -6,7 +6,7 @@
 /*   By: sgardner <stephenbgardner@gmail.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/10/27 19:21:24 by sgardner          #+#    #+#             */
-/*   Updated: 2017/11/09 21:44:44 by sgardner         ###   ########.fr       */
+/*   Updated: 2017/11/10 00:51:26 by sgardner         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -106,9 +106,15 @@ void					print_recursive(t_file *file, int flags);
 void					heap_sort(t_file **children, int child_count,
 		int flags);
 
-void					sort_args(char **argv, int argc, int idx);
+/*
+** sort_args.c
+*/
+
+t_bool					sort_args(char **argv, int argc, int idx);
 
 void					sort_types(t_file **children);
+
+void					split_sort(t_file **args, int flags);
 
 /*
 ** stat.c

@@ -6,7 +6,7 @@
 /*   By: sgardner <stephenbgardner@gmail.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/11/04 15:33:34 by sgardner          #+#    #+#             */
-/*   Updated: 2017/11/09 21:51:36 by sgardner         ###   ########.fr       */
+/*   Updated: 2017/11/10 00:00:39 by sgardner         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -127,7 +127,7 @@ t_bool					parse_flags(char **argv, int argc, int *idx, int *flags)
 		if (*(++arg) == '-')
 		{
 			if ((*idx > 2 && *(arg + 1) == '-' && !is_hyphenf(arg))
-				|| (*(arg + 1) == '-'))
+				|| *(arg + 1))
 				return (print_usage(*arg));
 			else
 				(*idx)++;

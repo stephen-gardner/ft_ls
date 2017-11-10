@@ -10,6 +10,7 @@ SRC = \
 	parser\
 	print\
 	sort\
+	sort_args\
 	stat\
 	util\
 	wrappers

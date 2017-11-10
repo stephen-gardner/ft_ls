@@ -6,7 +6,7 @@
 /*   By: sgardner <stephenbgardner@gmail.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/11/03 15:07:58 by sgardner          #+#    #+#             */
-/*   Updated: 2017/11/08 22:50:55 by sgardner         ###   ########.fr       */
+/*   Updated: 2017/11/09 23:16:10 by sgardner         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,58 +75,5 @@ void		heap_sort(t_file **children, int child_count, int flags)
 		children[0] = children[i];
 		children[i] = tmp;
 		max_heapify(children, 0, i--, flags);
-	}
-}
-
-void		sort_args(char **argv, int argc, int idx)
-{
-	char	*tmp;
-	t_bool	change;
-	int		i;
-
-	if (idx >= argc)
-		return ;
-	while (TRUE)
-	{
-		change = FALSE;
-		i = idx;
-		while (++i < argc)
-		{
-			if (ft_strcmp(argv[i], argv[i - 1]) < 0)
-			{
-				tmp = argv[i];
-				argv[i] = argv[i - 1];
-				argv[i - 1] = tmp;
-				change = TRUE;
-			}
-		}
-		if (!change)
-			break ;
-	}
-}
-
-void		sort_types(t_file **children)
-{
-	t_file	*tmp;
-	t_bool	change;
-	int		i;
-
-	while (TRUE)
-	{
-		change = FALSE;
-		i = 0;
-		while (children[++i])
-		{
-			if (children[i]->stats[0][0] != 'd'
-					&& children[i - 1]->stats[0][0] == 'd')
-			{
-				tmp = children[i];
-				children[i] = children[i - 1];
-				children[i - 1] = tmp;
-				change = TRUE;
-			}
-		}
-		if (!change)
-			break ;
 	}
 }

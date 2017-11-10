@@ -6,7 +6,7 @@
 /*   By: sgardner <stephenbgardner@gmail.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/10/27 19:21:45 by sgardner          #+#    #+#             */
-/*   Updated: 2017/11/09 21:22:26 by sgardner         ###   ########.fr       */
+/*   Updated: 2017/11/10 01:19:05 by sgardner         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,8 @@ static t_file	**build_args(char **argv, int argc, int idx, int flags)
 	int		len;
 	int		i;
 
-	sort_args(argv, argc, idx);
+	if (!sort_args(argv, argc, idx))
+		return (ls_error(""));
 	len = (idx >= argc) ? 1 : (argc - idx);
 	if (!(array = (t_file **)ft_memalloc(sizeof(t_file *) * (len + 1))))
 		return (NULL);
@@ -50,8 +51,7 @@ static t_file	**build_args(char **argv, int argc, int idx, int flags)
 		i++;
 	}
 	sort_types(array);
-//	if (!LSF(LS_F))
-//		heap_sort(array, i, flags);
+	split_sort(array, flags);
 	return (array);
 }
 
@@ -101,7 +101,7 @@ int				main(int argc, char **argv)
 	i = 0;
 	while (args[i])
 	{
-		if (!LSF(LS_D) && (argc - idx) > 1 && args[i]->stats[0][0] == 'd')
+		if (!LSF(LS_D) && (argc - idx) > 1 && args[i]->children)
 		{
 			if (i > 0)
 				write(1, "\n", 1);

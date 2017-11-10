@@ -6,7 +6,7 @@
 /*   By: sgardner <stephenbgardner@gmail.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/10/31 11:28:35 by sgardner          #+#    #+#             */
-/*   Updated: 2017/11/08 22:27:24 by sgardner         ###   ########.fr       */
+/*   Updated: 2017/11/10 00:57:12 by sgardner         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,6 +85,8 @@ void		*ls_error(char *path)
 	write(2, ": ", 2);
 	if (path)
 	{
+		if (!*path)
+			path = "fts_open";
 		if (errno != ENOENT && (tmp = ft_strrchr(path, '/')))
 			path = tmp + 1;
 		write(2, path, ft_strlen(path));
