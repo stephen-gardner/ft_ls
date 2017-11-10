@@ -6,7 +6,7 @@
 /*   By: sgardner <stephenbgardner@gmail.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/10/27 19:21:24 by sgardner          #+#    #+#             */
-/*   Updated: 2017/11/09 02:41:37 by sgardner         ###   ########.fr       */
+/*   Updated: 2017/11/09 20:35:50 by sgardner         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,14 +56,15 @@ enum	e_lsflags
 	LS_CT = 1 << 1,
 	LS_CTIME = 1 << 2,
 	LS_A = 1 << 3,
-	LS_F = 1 << 4,
-	LS_GROUP = 1 << 5,
-	LS_L = 1 << 6,
-	LS_OMIT_GROUP = 1 << 7,
-	LS_REV = 1 << 8,
-	LS_MTIME = 1 << 9,
-	LS_ATIME = 1 << 10,
-	LS_1 = 1 << 11
+	LS_D = 1 << 4,
+	LS_F = 1 << 5,
+	LS_GROUP = 1 << 6,
+	LS_L = 1 << 7,
+	LS_OMIT_GROUP = 1 << 8,
+	LS_REV = 1 << 9,
+	LS_MTIME = 1 << 10,
+	LS_ATIME = 1 << 11,
+	LS_1 = 1 << 12
 };
 
 /*

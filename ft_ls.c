@@ -6,7 +6,7 @@
 /*   By: sgardner <stephenbgardner@gmail.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/10/27 19:21:45 by sgardner          #+#    #+#             */
-/*   Updated: 2017/11/08 00:15:11 by sgardner         ###   ########.fr       */
+/*   Updated: 2017/11/09 21:22:26 by sgardner         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,7 +101,7 @@ int				main(int argc, char **argv)
 	i = 0;
 	while (args[i])
 	{
-		if ((argc - idx) > 1 && args[i]->stats[0][0] == 'd')
+		if (!LSF(LS_D) && (argc - idx) > 1 && args[i]->stats[0][0] == 'd')
 		{
 			if (i > 0)
 				write(1, "\n", 1);
