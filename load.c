@@ -6,7 +6,7 @@
 /*   By: sgardner <stephenbgardner@gmail.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/10/27 22:17:59 by sgardner          #+#    #+#             */
-/*   Updated: 2017/11/09 20:37:44 by sgardner         ###   ########.fr       */
+/*   Updated: 2017/11/10 16:21:20 by sgardner         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,7 +62,7 @@ t_bool		load_children(t_file *file, int flags)
 	i = 0;
 	while ((dp = ls_read(dir, file->path)))
 	{
-		if (!LSF(LS_A) && *dp->d_name == '.')
+		if (skip_file(dp->d_name, flags))
 			continue ;
 		if (!(cpath = build_path(file->path, dp->d_name))
 			|| !(file->children[i] = build_file(cpath, dp->d_name, flags))
@@ -100,4 +100,18 @@ t_file		*load_parent(char *path, int flags)
 	}
 	free(stats);
 	return (file);
+}
+
+t_bool		skip_file(char *fname, int flags)
+{
+	if (LSF(LS_A))
+		return (FALSE);
+	else if (LSF(LS_ALL))
+	{
+		if (!ft_strcmp(fname, ".") || !ft_strcmp(fname, ".."))
+			return (TRUE);
+	}
+	else if (*fname == '.')
+		return (TRUE);
+	return (FALSE);
 }

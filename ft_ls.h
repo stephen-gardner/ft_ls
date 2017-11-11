@@ -6,7 +6,7 @@
 /*   By: sgardner <stephenbgardner@gmail.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/10/27 19:21:24 by sgardner          #+#    #+#             */
-/*   Updated: 2017/11/10 00:51:26 by sgardner         ###   ########.fr       */
+/*   Updated: 2017/11/10 15:59:31 by sgardner         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,19 +53,20 @@ typedef struct			s_lsflag
 
 enum	e_lsflags
 {
-	LS_REC = 1,
-	LS_CT = 1 << 1,
-	LS_CTIME = 1 << 2,
-	LS_A = 1 << 3,
-	LS_D = 1 << 4,
-	LS_F = 1 << 5,
-	LS_GROUP = 1 << 6,
-	LS_L = 1 << 7,
-	LS_OMIT_GROUP = 1 << 8,
-	LS_REV = 1 << 9,
-	LS_MTIME = 1 << 10,
-	LS_ATIME = 1 << 11,
-	LS_1 = 1 << 12
+	LS_ALL = 1,
+	LS_REC = 1 << 1,
+	LS_CT = 1 << 2,
+	LS_CTIME = 1 << 3,
+	LS_A = 1 << 4,
+	LS_D = 1 << 5,
+	LS_F = 1 << 6,
+	LS_GROUP = 1 << 7,
+	LS_L = 1 << 8,
+	LS_OMIT_GROUP = 1 << 9,
+	LS_REV = 1 << 10,
+	LS_MTIME = 1 << 11,
+	LS_ATIME = 1 << 12,
+	LS_1 = 1 << 13
 };
 
 /*
@@ -85,6 +86,8 @@ void					*free_file(t_file **file);
 t_bool					load_children(t_file *file, int flags);
 
 t_file					*load_parent(char *path, int flags);
+
+t_bool					skip_file(char *fname, int flags);
 
 /*
 ** parser.c
