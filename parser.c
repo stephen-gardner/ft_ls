@@ -6,7 +6,7 @@
 /*   By: sgardner <stephenbgardner@gmail.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/11/04 15:33:34 by sgardner          #+#    #+#             */
-/*   Updated: 2017/11/10 20:59:40 by sgardner         ###   ########.fr       */
+/*   Updated: 2017/11/10 23:32:22 by sgardner         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,9 +25,11 @@ const t_lsflag	g_lsflags[] = {
 	{ 'A', LS_ALL, "", "" },
 	{ 'F', LS_FTYPE, "", "p" },
 	{ 'R', LS_REC, "", "" },
+	{ 'S', LS_SIZE, "", "t" },
 	{ 'T', LS_CT, "", "" },
-	{ 'U', LS_CTIME, "", "tu" },
+	{ 'U', LS_BTIME, "", "Ucu" },
 	{ 'a', LS_A, "", "" },
+	{ 'c', LS_CTIME, "", "Uu" },
 	{ 'd', LS_D, "", "" },
 	{ 'f', LS_F, "a", "" },
 	{ 'g', LS_GROUP, "l", "" },
@@ -35,8 +37,8 @@ const t_lsflag	g_lsflags[] = {
 	{ 'o', LS_OMIT_GROUP, "l", "" },
 	{ 'p', LS_P, "", "F" },
 	{ 'r', LS_REV, "", "" },
-	{ 't', LS_MTIME, "", "Uu" },
-	{ 'u', LS_ATIME, "", "Ut" },
+	{ 't', LS_MTIME, "", "Ucu" },
+	{ 'u', LS_ATIME, "", "Uc" },
 	{ '1', LS_1, "", "l" },
 };
 
@@ -114,7 +116,7 @@ static void				set_flag(const t_lsflag *f, int *flags)
 	}
 	i = 0;
 	while (f->prereqs[i])
-		*flags |= get_flag(f->prereqs[i++])->flag;
+		set_flag(get_flag(f->prereqs[i++]), flags);
 	*flags |= f->flag;
 }
 

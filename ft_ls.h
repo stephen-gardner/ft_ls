@@ -6,7 +6,7 @@
 /*   By: sgardner <stephenbgardner@gmail.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/10/27 19:21:24 by sgardner          #+#    #+#             */
-/*   Updated: 2017/11/10 20:58:16 by sgardner         ###   ########.fr       */
+/*   Updated: 2017/11/10 23:30:08 by sgardner         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,7 @@ typedef struct			s_file
 	char			*name;
 	char			*path;
 	long long		block_size;
+	long long		byte_size;
 	char			*stats[10];
 	int				maxlen[6];
 	struct timespec	timestamp;
@@ -56,19 +57,21 @@ enum	e_lsflags
 	LS_ALL = 1,
 	LS_FTYPE = 1 << 1,
 	LS_REC = 1 << 2,
-	LS_CT = 1 << 3,
-	LS_CTIME = 1 << 4,
-	LS_A = 1 << 5,
-	LS_D = 1 << 6,
-	LS_F = 1 << 7,
-	LS_GROUP = 1 << 8,
-	LS_L = 1 << 9,
-	LS_OMIT_GROUP = 1 << 10,
-	LS_P = 1 << 11,
-	LS_REV = 1 << 12,
-	LS_MTIME = 1 << 13,
-	LS_ATIME = 1 << 14,
-	LS_1 = 1 << 15
+	LS_SIZE = 1 << 3,
+	LS_CT = 1 << 4,
+	LS_BTIME = 1 << 5,
+	LS_A = 1 << 6,
+	LS_CTIME = 1 << 7,
+	LS_D = 1 << 8,
+	LS_F = 1 << 9,
+	LS_GROUP = 1 << 10,
+	LS_L = 1 << 11,
+	LS_OMIT_GROUP = 1 << 12,
+	LS_P = 1 << 13,
+	LS_REV = 1 << 14,
+	LS_MTIME = 1 << 15,
+	LS_ATIME = 1 << 16,
+	LS_1 = 1 << 17
 };
 
 /*

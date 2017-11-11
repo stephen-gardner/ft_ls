@@ -6,7 +6,7 @@
 /*   By: sgardner <stephenbgardner@gmail.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/10/27 22:17:59 by sgardner          #+#    #+#             */
-/*   Updated: 2017/11/10 16:21:20 by sgardner         ###   ########.fr       */
+/*   Updated: 2017/11/10 22:45:05 by sgardner         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,7 @@ t_file		*build_file(char *path, char *name, int flags)
 		ls_error(path);
 		free_file(&file);
 	}
+	file->byte_size = stats->st_size;
 	free(stats);
 	return (file);
 }

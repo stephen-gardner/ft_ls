@@ -6,7 +6,7 @@
 /*   By: sgardner <stephenbgardner@gmail.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/10/30 21:02:06 by sgardner          #+#    #+#             */
-/*   Updated: 2017/11/10 21:03:13 by sgardner         ###   ########.fr       */
+/*   Updated: 2017/11/10 23:30:54 by sgardner         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,6 +74,8 @@ static char		*get_time_str(t_file *file, t_stat *stats, int flags)
 		spec = stats->st_atimespec;
 	else if (LSF(LS_CTIME))
 		spec = stats->st_ctimespec;
+	else if (LSF(LS_BTIME))
+		spec = stats->st_birthtimespec;
 	else
 		spec = stats->st_mtimespec;
 	file->timestamp = spec;
