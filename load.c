@@ -6,7 +6,7 @@
 /*   By: sgardner <stephenbgardner@gmail.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/10/27 22:17:59 by sgardner          #+#    #+#             */
-/*   Updated: 2017/11/10 22:45:05 by sgardner         ###   ########.fr       */
+/*   Updated: 2017/11/11 19:49:15 by sgardner         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,8 +26,10 @@ t_file		*build_file(char *path, char *name, int flags)
 	if (lstat(path, stats) < 0 || !load_stats(file, stats, flags))
 	{
 		ls_error(path);
-		free_file(&file);
+		free(stats);
+		return (free_file(&file));
 	}
+	file->block_size = stats->st_blocks;
 	file->byte_size = stats->st_size;
 	free(stats);
 	return (file);

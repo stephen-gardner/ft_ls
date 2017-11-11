@@ -6,7 +6,7 @@
 /*   By: sgardner <stephenbgardner@gmail.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/10/30 21:02:06 by sgardner          #+#    #+#             */
-/*   Updated: 2017/11/10 23:30:54 by sgardner         ###   ########.fr       */
+/*   Updated: 2017/11/11 19:49:13 by sgardner         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -114,7 +114,6 @@ t_bool			load_stats(t_file *file, t_stat *stats, int flags)
 	struct passwd	*pw;
 	struct group	*gr;
 
-	file->block_size = stats->st_blocks;
 	pw = getpwuid(stats->st_uid);
 	gr = getgrgid(stats->st_gid);
 	if (!SET_STAT(0, get_perms(stats->st_mode))
