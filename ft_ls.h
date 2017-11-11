@@ -6,7 +6,7 @@
 /*   By: sgardner <stephenbgardner@gmail.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/10/27 19:21:24 by sgardner          #+#    #+#             */
-/*   Updated: 2017/11/10 23:30:08 by sgardner         ###   ########.fr       */
+/*   Updated: 2017/11/11 00:48:52 by sgardner         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,6 @@
 # include <errno.h>
 # include <grp.h>
 # include <pwd.h>
-# include <stdio.h>
 # include <sys/stat.h>
 # include <sys/xattr.h>
 # include <time.h>
