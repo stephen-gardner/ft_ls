@@ -6,7 +6,7 @@
 /*   By: sgardner <stephenbgardner@gmail.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/11/09 23:03:51 by sgardner          #+#    #+#             */
-/*   Updated: 2017/11/10 01:41:27 by sgardner         ###   ########.fr       */
+/*   Updated: 2017/11/10 16:33:15 by sgardner         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ static t_bool	valid_args(char **argv, int idx)
 	return (TRUE);
 }
 
-t_bool		sort_args(char **argv, int argc, int idx)
+t_bool			sort_args(char **argv, int argc, int idx)
 {
 	char	*tmp;
 	t_bool	change;
@@ -53,7 +53,7 @@ t_bool		sort_args(char **argv, int argc, int idx)
 	return (TRUE);
 }
 
-void		sort_types(t_file **args)
+void			sort_types(t_file **args)
 {
 	t_file	*tmp;
 	t_bool	change;
@@ -78,7 +78,7 @@ void		sort_types(t_file **args)
 	}
 }
 
-void		split_sort(t_file **args, int flags)
+void			split_sort(t_file **args, int flags)
 {
 	int	folders;
 	int	files;

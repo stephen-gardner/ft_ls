@@ -6,7 +6,7 @@
 /*   By: sgardner <stephenbgardner@gmail.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/10/30 21:02:06 by sgardner          #+#    #+#             */
-/*   Updated: 2017/11/09 22:53:19 by sgardner         ###   ########.fr       */
+/*   Updated: 2017/11/10 17:19:47 by sgardner         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,6 +105,8 @@ t_bool			is_symdir(t_file *file, int flags)
 	return (LSF(LS_L) ? FALSE : symdir);
 }
 
+#define SET_STAT(x, y) (file->stats[x] = y)
+
 t_bool			load_stats(t_file *file, t_stat *stats, int flags)
 {
 	struct passwd	*pw;
@@ -113,21 +115,19 @@ t_bool			load_stats(t_file *file, t_stat *stats, int flags)
 	file->block_size = stats->st_blocks;
 	pw = getpwuid(stats->st_uid);
 	gr = getgrgid(stats->st_gid);
-	if (!(file->stats[0] = get_perms(stats->st_mode))
-		|| !(file->stats[1] = ft_itoa(stats->st_nlink))
-		|| !(file->stats[2] =
-			(pw) ? ft_strdup(pw->pw_name) : ft_itoa(stats->st_uid))
-		|| !(file->stats[3] =
-			(gr) ? ft_strdup(gr->gr_name) : ft_itoa(stats->st_gid))
-		|| !(file->stats[4] = ft_itoa(stats->st_size))
-		|| !(file->stats[5] = get_time_str(file, stats, flags))
-		|| !(file->stats[6] = (FMT(stats->st_mode, S_IFLNK)) ?
+	if (!SET_STAT(0, get_perms(stats->st_mode))
+		|| !SET_STAT(1, ft_itoa(stats->st_nlink))
+		|| !SET_STAT(2, (pw) ? ft_strdup(pw->pw_name) : ft_itoa(stats->st_uid))
+		|| !SET_STAT(3, (gr) ? ft_strdup(gr->gr_name) : ft_itoa(stats->st_gid))
+		|| !SET_STAT(4, ft_itoa(stats->st_size))
+		|| !SET_STAT(5, get_time_str(file, stats, flags))
+		|| !SET_STAT(6, (FMT(stats->st_mode, S_IFLNK)) ?
 			build_link(file->name, file->path) : ft_strdup(file->name)))
 		return (FALSE);
 	if (file->stats[0][0] == 'b' || file->stats[0][0] == 'c')
 	{
-		if (!(file->stats[7] = ft_itoa(major(stats->st_rdev)))
-			|| !(file->stats[8] = ft_itoa(minor(stats->st_rdev))))
+		if (!SET_STAT(7, ft_itoa(major(stats->st_rdev)))
+			|| !SET_STAT(8, ft_itoa(minor(stats->st_rdev))))
 			return (FALSE);
 	}
 	file->stats[0][10] = (listxattr(file->path, NULL, 0, XATTR_NOFOLLOW) > 0) ?
