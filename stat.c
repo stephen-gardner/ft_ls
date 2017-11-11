@@ -6,7 +6,7 @@
 /*   By: sgardner <stephenbgardner@gmail.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/10/30 21:02:06 by sgardner          #+#    #+#             */
-/*   Updated: 2017/11/10 17:19:47 by sgardner         ###   ########.fr       */
+/*   Updated: 2017/11/10 21:03:13 by sgardner         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -121,8 +121,9 @@ t_bool			load_stats(t_file *file, t_stat *stats, int flags)
 		|| !SET_STAT(3, (gr) ? ft_strdup(gr->gr_name) : ft_itoa(stats->st_gid))
 		|| !SET_STAT(4, ft_itoa(stats->st_size))
 		|| !SET_STAT(5, get_time_str(file, stats, flags))
-		|| !SET_STAT(6, (FMT(stats->st_mode, S_IFLNK)) ?
-			build_link(file->name, file->path) : ft_strdup(file->name)))
+		|| !SET_STAT(6, (FMT(stats->st_mode, S_IFLNK) && LSF(LS_L))
+			? build_link(file->name, file->path, flags)
+			: build_dname(file, flags)))
 		return (FALSE);
 	if (file->stats[0][0] == 'b' || file->stats[0][0] == 'c')
 	{

@@ -6,7 +6,7 @@
 /*   By: sgardner <stephenbgardner@gmail.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/11/01 17:23:58 by sgardner          #+#    #+#             */
-/*   Updated: 2017/11/09 20:28:13 by sgardner         ###   ########.fr       */
+/*   Updated: 2017/11/10 21:00:33 by sgardner         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,19 @@
 
 #define VWF(x, y) (max) ? max[x] : ft_strlen(stats[y]), stats[y]
 
-static void		print_long(char **stats, int *max, int flags)
+static long long	count_blocks(t_file **children)
+{
+	long long	blocks;
+	int			i;
+
+	blocks = 0;
+	i = 0;
+	while (children[i])
+		blocks += children[i++]->block_size;
+	return (blocks);
+}
+
+static void			print_long(char **stats, int *max, int flags)
 {
 	ft_printf("%s ", stats[0]);
 	ft_printf("%*s ", VWF(0, 1));
@@ -32,7 +44,7 @@ static void		print_long(char **stats, int *max, int flags)
 	ft_printf("%s\n", stats[6]);
 }
 
-static void		print_files(t_file *file, int flags)
+static void			print_files(t_file *file, int flags)
 {
 	t_file	*child;
 	int		i;
@@ -41,7 +53,7 @@ static void		print_files(t_file *file, int flags)
 	{
 		(LSF(LS_L))
 			? print_long(file->stats, NULL, flags)
-			: ft_printf("%s\n", file->name);
+			: ft_printf("%s\n", file->stats[6]);
 		return ;
 	}
 	if (LSF(LS_L))
@@ -55,11 +67,11 @@ static void		print_files(t_file *file, int flags)
 	{
 		(LSF(LS_L))
 			? print_long(child->stats, file->maxlen, flags)
-			: ft_printf("%s\n", child->name);
+			: ft_printf("%s\n", child->stats[6]);
 	}
 }
 
-static t_file	*get_next_folder(t_file *file, int flags)
+static t_file		*get_next_folder(t_file *file, int flags)
 {
 	t_file	*child;
 
@@ -88,7 +100,7 @@ static t_file	*get_next_folder(t_file *file, int flags)
 ** Except it's iterative! >:)
 */
 
-void			print_recursive(t_file *file, int flags)
+void				print_recursive(t_file *file, int flags)
 {
 	int	i;
 

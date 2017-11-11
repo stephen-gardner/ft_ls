@@ -6,7 +6,7 @@
 /*   By: sgardner <stephenbgardner@gmail.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/11/04 15:33:34 by sgardner          #+#    #+#             */
-/*   Updated: 2017/11/10 15:51:26 by sgardner         ###   ########.fr       */
+/*   Updated: 2017/11/10 20:59:40 by sgardner         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,7 @@
 
 const t_lsflag	g_lsflags[] = {
 	{ 'A', LS_ALL, "", "" },
+	{ 'F', LS_FTYPE, "", "p" },
 	{ 'R', LS_REC, "", "" },
 	{ 'T', LS_CT, "", "" },
 	{ 'U', LS_CTIME, "", "tu" },
@@ -32,6 +33,7 @@ const t_lsflag	g_lsflags[] = {
 	{ 'g', LS_GROUP, "l", "" },
 	{ 'l', LS_L, "", "1" },
 	{ 'o', LS_OMIT_GROUP, "l", "" },
+	{ 'p', LS_P, "", "F" },
 	{ 'r', LS_REV, "", "" },
 	{ 't', LS_MTIME, "", "Uu" },
 	{ 'u', LS_ATIME, "", "Ut" },

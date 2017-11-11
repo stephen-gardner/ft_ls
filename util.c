@@ -6,11 +6,63 @@
 /*   By: sgardner <stephenbgardner@gmail.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/10/31 11:28:35 by sgardner          #+#    #+#             */
-/*   Updated: 2017/11/10 16:01:20 by sgardner         ###   ########.fr       */
+/*   Updated: 2017/11/10 21:11:10 by sgardner         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_ls.h"
+
+#define STAT(x, y) file->stats[x][y]
+
+char		*build_dname(t_file *file, int flags)
+{
+	char	*dname;
+	char	*tmp;
+	t_bool	x;
+
+	if (!LSF(LS_FTYPE) && !LSF(LS_P))
+		return (ft_strdup(file->name));
+	if (!(dname = (char *)malloc(ft_strlen(file->name) + 2)))
+		return (NULL);
+	tmp = ft_stpcpy(dname, file->name);
+	if (STAT(0, 0) == 'd')
+		*tmp++ = '/';
+	if (!LSF(LS_P))
+	{
+		x = (STAT(0, 3) != '-' || STAT(0, 6) != '-' || STAT(0, 9) != '-');
+		if (STAT(0, 0) == '-' && x)
+			*tmp++ = '*';
+		else if (STAT(0, 0) == 'l')
+			*tmp++ = '@';
+		else if (STAT(0, 0) == 's')
+			*tmp++ = '=';
+		else if (STAT(0, 0) == 'p')
+			*tmp++ = '|';
+	}
+	*tmp = '\0';
+	return (dname);
+}
+
+char		*build_link(char *link, char *path, int flags)
+{
+	char	target[256];
+	char	*label;
+	char	*tmp;
+	int		len;
+
+	if ((len = readlink(path, target, 255)) < 0)
+		return (ls_error(path));
+	target[len] = '\0';
+	len = ft_strlen(link) + ft_strlen(target) + LSF(LS_FTYPE) + 5;
+	if (!(label = (char *)malloc(len)))
+		return (NULL);
+	tmp = ft_stpcpy(label, link);
+	if (LSF(LS_FTYPE))
+		*tmp++ = '@';
+	tmp = ft_stpcpy(tmp, " -> ");
+	tmp = ft_stpcpy(tmp, target);
+	return (label);
+}
 
 char		*build_path(char *parent, char *child)
 {
@@ -24,37 +76,6 @@ char		*build_path(char *parent, char *child)
 		*tmp++ = '/';
 	tmp = ft_stpcpy(tmp, child);
 	return (path);
-}
-
-char		*build_link(char *link, char *path)
-{
-	char	target[256];
-	char	*label;
-	char	*tmp;
-	int		len;
-
-	if ((len = readlink(path, target, 255)) < 0)
-		return (ls_error(path));
-	target[len] = '\0';
-	if (!(label = (char *)malloc(ft_strlen(link) + ft_strlen(target) + 5)))
-		return (NULL);
-	tmp = label;
-	tmp = ft_stpcpy(tmp, link);
-	tmp = ft_stpcpy(tmp, " -> ");
-	tmp = ft_stpcpy(tmp, target);
-	return (label);
-}
-
-long long	count_blocks(t_file **children)
-{
-	long long	blocks;
-	int			i;
-
-	blocks = 0;
-	i = 0;
-	while (children[i])
-		blocks += children[i++]->block_size;
-	return (blocks);
 }
 
 int			dir_len(char *path, int flags)
